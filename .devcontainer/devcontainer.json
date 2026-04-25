@@ -1,0 +1,13 @@
+{
+  "name": "AI Sandbox - ${localWorkspaceFolderBasename} (Podman)",
+
+  "image": "projects-devcontainer:latest",
+
+  "workspaceMount": "source=/home/addyd/Projects,target=/workspaces,type=bind",
+
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+  "remoteUser": "agent",
+
+  "runArgs": ["--userns=keep-id"]
+}

@@ -1,0 +1,35 @@
+stat_arb:
+  enabled: true
+  lookback_days: 60
+  min_kappa: 8.4
+  entry_s_score: 1.25
+  exit_s_score_long: 0.5
+  exit_s_score_short: 0.5
+  max_allocation_pct: 0.20
+
+reversal:
+  enabled: true
+  lookback_days: 5
+  long_decile: 0.10
+  short_decile: 0.90
+  turnover_split: true
+  max_allocation_pct: 0.20
+
+regime_combo:
+  enabled: true
+  vix_sma_lookback: 20
+  low_vol_strategy: stat_arb
+  med_vol_strategy: reversal
+  high_vol_reduce_pct: 0.5
+  extreme_vol_halt: true
+  max_allocation_pct: 0.20
+
+backtest:
+  is_window_months: 12
+  n_mc_paths: 1000
+  n_bootstrap_paths: 500
+  bootstrap_block_mean: 10
+  n_permutations: 200
+  slippage_rate: 0.0015
+  include_costs: true
+  random_seed: 42

@@ -1,0 +1,25 @@
+min_market_cap_usd: 1000000000
+min_avg_daily_volume: 500000
+sector_etf_map:
+  Technology: XLK
+  Healthcare: XLV
+  Financials: XLF
+  Energy: XLE
+  "Consumer Discretionary": XLY
+  Industrials: XLI
+  Materials: XLB
+  Utilities: XLU
+  "Real Estate": XLRE
+  "Communication Services": XLC
+  "Consumer Staples": XLP
+tickers:
+  - AAPL
+  - MSFT
+  - GOOGL
+  - AMZN
+  - NVDA
+  - META
+  - JPM
+  - UNH
+  - XOM
+  - V

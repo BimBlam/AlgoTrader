@@ -1,0 +1,16 @@
+# config/system.yaml
+# Use ${DATABASE_URL} or set the DB_URL environment variable.
+# Never commit real credentials.
+
+mode: PAPER # DISABLED | PAPER | LIVE | BOTH
+approval_mode: HARD # HARD | SOFT
+db_url: "${DATABASE_URL}" # e.g. postgresql://user:pass@localhost:5432/algotrader
+ibkr_paper_port: 7497
+ibkr_live_port: 7496
+ibkr_client_id: 1
+log_level: INFO
+log_dir: "logs/"
+data_dir_ssd: "data/"
+data_dir_hdd: "/run/media/data1/d.Joel/AlgoTrader/raw/"
+gpu_device: "cuda:0"
+allow_market_orders: false

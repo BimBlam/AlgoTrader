@@ -1,0 +1,21 @@
+model: finbert
+finbert_model_id: "ProsusAI/finbert"
+openai_model: "gpt-4o-mini"
+llama_host: "http://localhost:11434"
+sentiment_threshold_positive: 0.30
+sentiment_threshold_negative: -0.30
+attention_z_threshold: 2.0
+attention_lookback_days: 20
+
+sources:
+  reddit:
+    enabled: true
+    subreddits:
+      - wallstreetbets
+      - investing
+      - stocks
+  twitter:
+    enabled: false
+  news:
+    enabled: true
+    provider: "newsapi"

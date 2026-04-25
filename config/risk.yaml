@@ -1,0 +1,12 @@
+# config/risk.yaml
+# All monetary values in USD.
+
+max_position_usd: 5000.0          # max single-position dollar value after clipping
+max_total_exposure_usd: 50000.0   # sum of all open position values
+max_daily_loss_usd: 1500.0        # halt threshold for today's realised P&L
+max_positions_open: 40            # max concurrent open positions
+kelly_fraction: 0.25              # quarter-Kelly: fraction of equity risked per trade
+atr_lookback_days: 14             # ATR window for position sizing
+max_correlation_threshold: 0.4    # reserved for future correlation guard
+halt_on_daily_loss: true
+halt_on_data_failure: true
