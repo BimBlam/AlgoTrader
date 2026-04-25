@@ -41,7 +41,7 @@ def config_dir(tmp_path: Path) -> Path:
         "max_positions_open": 40,
         "kelly_fraction": 0.25,
         "atr_lookback_days": 14,
-        "max_correlation_threshold": 0.4,
+        "extreme_vol_halt": True,
         "halt_on_daily_loss": True,
         "halt_on_data_failure": True,
     }
@@ -75,7 +75,6 @@ def config_dir(tmp_path: Path) -> Path:
             "low_vol_strategy": "stat_arb",
             "med_vol_strategy": "reversal",
             "high_vol_reduce_pct": 0.50,
-            "extreme_vol_halt": True,
             "max_allocation_pct": 0.30,
         },
     }

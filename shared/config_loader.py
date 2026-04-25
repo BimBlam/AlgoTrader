@@ -69,7 +69,7 @@ class RiskConfig(BaseModel):
     max_positions_open: int
     kelly_fraction: float
     atr_lookback_days: int
-    max_correlation_threshold: float
+    extreme_vol_halt: bool = True
     halt_on_daily_loss: bool
     halt_on_data_failure: bool
 
@@ -113,7 +113,6 @@ class RegimeComboParams(BaseModel):
     low_vol_strategy: str
     med_vol_strategy: str
     high_vol_reduce_pct: float
-    extreme_vol_halt: bool
     max_allocation_pct: float
 
 

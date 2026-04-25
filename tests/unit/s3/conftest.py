@@ -32,7 +32,6 @@ def _make_strategy_cfg(
     turnover_split=True,
     min_kappa=8.4,
     lookback=60,
-    extreme_vol_halt=True,
     high_vol_reduce_pct=0.50,
 ):
     stat_arb = types.SimpleNamespace(
@@ -58,7 +57,6 @@ def _make_strategy_cfg(
         low_vol_strategy="stat_arb",
         med_vol_strategy="reversal",
         high_vol_reduce_pct=high_vol_reduce_pct,
-        extreme_vol_halt=extreme_vol_halt,
         max_allocation_pct=0.30,
     )
     return types.SimpleNamespace(
@@ -104,6 +102,7 @@ def mock_cfg(tmp_path):
             max_total_exposure_usd=50000,
             max_positions_open=40,
             kelly_fraction=0.25,
+            extreme_vol_halt=True,
         ),
     )
     return cfg

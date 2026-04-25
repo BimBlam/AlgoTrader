@@ -11,6 +11,6 @@ ibkr_client_id: 1
 log_level: INFO
 log_dir: "logs/"
 data_dir_ssd: "data/"
-data_dir_hdd: "/run/media/data1/d.Joel/AlgoTrader/raw/"
+data_dir_hdd: "/mnt/hdd/algotrader/"
 gpu_device: "cuda:0"
 allow_market_orders: false

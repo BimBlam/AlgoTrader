@@ -18,18 +18,7 @@ reversal:
 regime_combo:
   enabled: true
   vix_sma_lookback: 20
-  low_vol_strategy: stat_arb
-  med_vol_strategy: reversal
-  high_vol_reduce_pct: 0.5
-  extreme_vol_halt: true
+  low_vol_strategy: "STAT_ARB"
+  med_vol_strategy: "REVERSAL"
+  high_vol_reduce_pct: 0.50
   max_allocation_pct: 0.20
-
-backtest:
-  is_window_months: 12
-  n_mc_paths: 1000
-  n_bootstrap_paths: 500
-  bootstrap_block_mean: 10
-  n_permutations: 200
-  slippage_rate: 0.0015
-  include_costs: true
-  random_seed: 42

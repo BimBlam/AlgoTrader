@@ -76,7 +76,6 @@ class TestRegimeComboConfig:
             low_vol_strategy="stat_arb",
             med_vol_strategy="reversal",
             high_vol_reduce_pct=0.50,
-            extreme_vol_halt=True,
             max_allocation_pct=0.30,
         )
         assert cfg.vix_sma_lookback == 50
@@ -86,7 +85,7 @@ class TestRegimeComboConfig:
             RegimeComboConfig(
                 enabled=True, vix_sma_lookback=50,
                 low_vol_strategy="stat_arb", med_vol_strategy="reversal",
-                high_vol_reduce_pct=1.5, extreme_vol_halt=True,
+                high_vol_reduce_pct=1.5,
                 max_allocation_pct=0.30,
             )
 
@@ -106,7 +105,7 @@ class TestStrategyParamsConfig:
             regime_combo=RegimeComboConfig(
                 enabled=True, vix_sma_lookback=50, low_vol_strategy="stat_arb",
                 med_vol_strategy="reversal", high_vol_reduce_pct=0.50,
-                extreme_vol_halt=True, max_allocation_pct=0.30,
+                max_allocation_pct=0.30,
             ),
         )
         assert cfg.stat_arb.entry_s_score == 1.25

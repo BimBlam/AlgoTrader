@@ -9,7 +9,7 @@ Guards
 2. check_max_positions    — open positions >= max_positions_open      → deny
 3. clip_position_size     — target > max_position_usd                 → clip + WARNING (never raises)
 4. check_total_exposure   — current + new > max_total_exposure_usd    → deny
-5. check_extreme_vix      — extreme_vol_halt AND regime=EXTREME        → deny
+5. check_extreme_vix      — cfg.risk.extreme_vol_halt AND regime=EXTREME → deny
 6. check_market_hours     — outside 09:25–15:55 ET                    → deny
 7. check_margin           — IBKR reports insufficient margin           → deny
 
@@ -149,7 +149,7 @@ def check_extreme_vix(signal: Signal, cfg: AppConfig) -> None:
     Guard 5: deny all signals if extreme_vol_halt is enabled and this signal's
     regime is EXTREME.
     """
-    if cfg.strategy_params.regime_combo.extreme_vol_halt and signal.regime == "EXTREME":
+    if cfg.risk.extreme_vol_halt and signal.regime == "EXTREME":
         log.warning(
             "extreme_vix_halt_guard",
             ticker=signal.ticker,

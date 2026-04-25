@@ -31,6 +31,7 @@ def compute_reversal_signals(
     regime: str,
     run_id: str,
     today: datetime.date,
+    extreme_vol_halt: bool = True,
 ) -> list[SignalCandidate]:
     """
     Generate cross-sectional reversal signals.
@@ -39,9 +40,8 @@ def compute_reversal_signals(
     EXTREME regime halts all reversals if extreme_vol_halt=True.
     """
     params = strategy_cfg.reversal
-    combo_params = strategy_cfg.regime_combo
 
-    if regime == "EXTREME" and combo_params.extreme_vol_halt:
+    if regime == "EXTREME" and extreme_vol_halt:
         log.info("reversal_halted_extreme_regime", date=str(today))
         return []
 

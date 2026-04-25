@@ -41,12 +41,12 @@ def mock_cfg():
             max_positions_open=40,
             kelly_fraction=0.25,
             atr_lookback_days=14,
-            max_correlation_threshold=0.4,
+            extreme_vol_halt=False,
             halt_on_daily_loss=True,
             halt_on_data_failure=True,
         ),
         strategy_params=SimpleNamespace(
-            regime_combo=SimpleNamespace(extreme_vol_halt=False),
+            regime_combo=SimpleNamespace(),
         ),
     )
 

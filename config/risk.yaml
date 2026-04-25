@@ -7,6 +7,6 @@ max_daily_loss_usd: 1500.0        # halt threshold for today's realised P&L
 max_positions_open: 40            # max concurrent open positions
 kelly_fraction: 0.25              # quarter-Kelly: fraction of equity risked per trade
 atr_lookback_days: 14             # ATR window for position sizing
-max_correlation_threshold: 0.4    # reserved for future correlation guard
+extreme_vol_halt: true            # deny all orders when VIX regime is EXTREME
 halt_on_daily_loss: true
 halt_on_data_failure: true

@@ -17,13 +17,12 @@ def _make_vix_df(closes: list[float], start="2024-06-01"):
     return pd.DataFrame({"close": closes, "adj_close": closes}, index=dates)
 
 
-def _make_cfg(tmp_path, vix_sma_lookback=50, extreme_vol_halt=True):
+def _make_cfg(tmp_path, vix_sma_lookback=50):
     return types.SimpleNamespace(
         system=types.SimpleNamespace(data_dir_ssd=str(tmp_path)),
         strategy_params=types.SimpleNamespace(
             regime_combo=types.SimpleNamespace(
                 vix_sma_lookback=vix_sma_lookback,
-                extreme_vol_halt=extreme_vol_halt,
             )
         ),
     )

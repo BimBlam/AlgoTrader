@@ -49,6 +49,7 @@ def compute_stat_arb_signals(
     regime: str,
     run_id: str,
     today: datetime.date,
+    extreme_vol_halt: bool = True,
 ) -> list[SignalCandidate]:
     """
     Generate stat arb entry signals for all tickers with valid OU params.
@@ -58,9 +59,8 @@ def compute_stat_arb_signals(
     signals; bullish sentiment suppresses SHORT signals.
     """
     params = strategy_cfg.stat_arb
-    combo_params = strategy_cfg.regime_combo
 
-    if regime == "EXTREME" and combo_params.extreme_vol_halt:
+    if regime == "EXTREME" and extreme_vol_halt:
         log.info("stat_arb_halted_extreme_regime", date=str(today))
         return []
 

@@ -20,9 +20,9 @@ def _make_cfg():
         strategy_params=types.SimpleNamespace(
             stat_arb=types.SimpleNamespace(enabled=True),
             reversal=types.SimpleNamespace(enabled=True),
-            regime_combo=types.SimpleNamespace(extreme_vol_halt=True),
+            regime_combo=types.SimpleNamespace(),
         ),
-        risk=types.SimpleNamespace(),
+        risk=types.SimpleNamespace(extreme_vol_halt=True),
         sentiment_params=types.SimpleNamespace(),
     )
 

@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "algotrader"
+version = "1.0.0"
+description = "Modular, multi-process algorithmic trading platform for US equities"
+requires-python = ">=3.11"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["shared*", "s1_orchestrator*", "s2_data_ingestion*", "s3_signal_engine*", "s4_backtest_validator*", "s5_sentiment*", "s6_execution*", "s7_dashboard*"]
+exclude = ["tests*", "migrations*", ".venv*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/unit"]
+pythonpath = ["."]
+addopts = "-q --tb=short"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["shared", "s1_orchestrator", "s2_data_ingestion", "s3_signal_engine", "s4_backtest_validator", "s5_sentiment", "s6_execution", "s7_dashboard"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+plugins = ["sqlalchemy.ext.mypy.plugin"]
+
+[[tool.mypy.overrides]]
+module = ["arch.*", "ib_insync.*", "yfinance.*", "praw.*"]
+ignore_missing_imports = true

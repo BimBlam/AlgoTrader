@@ -32,9 +32,6 @@ def strategy_cfg():
             turnover_split=False,
             max_allocation_pct=0.30,
         ),
-        regime_combo=types.SimpleNamespace(
-            extreme_vol_halt=True,
-        ),
     )
 
 
@@ -88,9 +85,9 @@ class TestReversalSignals:
         assert signals == []
 
     def test_extreme_no_halt_when_flag_false(self, strategy_cfg, returns_df):
-        strategy_cfg.regime_combo.extreme_vol_halt = False
         with _patch_adj(1.0):
-            signals = compute_reversal_signals(returns_df, strategy_cfg, {}, "EXTREME", RUN_ID, TODAY)
+            signals = compute_reversal_signals(returns_df, strategy_cfg, {}, "EXTREME", RUN_ID, TODAY,
+                                                 extreme_vol_halt=False)
         assert len(signals) > 0
 
     def test_zero_volume_tickers_excluded(self, strategy_cfg, returns_df):

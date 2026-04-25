@@ -43,7 +43,6 @@ class RegimeComboConfig(BaseModel):
     low_vol_strategy: str
     med_vol_strategy: str
     high_vol_reduce_pct: float = Field(ge=0.0, le=1.0)
-    extreme_vol_halt: bool = True
     max_allocation_pct: float = Field(ge=0.0, le=1.0)
 
 

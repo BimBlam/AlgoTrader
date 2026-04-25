@@ -120,6 +120,7 @@ def _run_pipeline(session, run_id: str, today: datetime.date, cfg) -> None:
             regime=regime,
             run_id=run_id,
             today=today,
+            extreme_vol_halt=risk_cfg.extreme_vol_halt,
         )
         all_candidates.extend(stat_arb_signals)
 
@@ -131,6 +132,7 @@ def _run_pipeline(session, run_id: str, today: datetime.date, cfg) -> None:
             regime=regime,
             run_id=run_id,
             today=today,
+            extreme_vol_halt=risk_cfg.extreme_vol_halt,
         )
         all_candidates.extend(reversal_signals)
 

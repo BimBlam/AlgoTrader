@@ -101,7 +101,7 @@ class TestValidate:
             "max_positions_open": 40,
             "kelly_fraction": 0.25,
             "atr_lookback_days": 14,
-            "max_correlation_threshold": 0.4,
+            "extreme_vol_halt": True,
             "halt_on_daily_loss": True,
             "halt_on_data_failure": True,
         }
@@ -115,7 +115,7 @@ class TestValidate:
             "max_positions_open": 40,
             "kelly_fraction": 1.5,  # invalid: > 1.0
             "atr_lookback_days": 14,
-            "max_correlation_threshold": 0.4,
+            "extreme_vol_halt": True,
             "halt_on_daily_loss": True,
             "halt_on_data_failure": True,
         }
@@ -144,7 +144,6 @@ class TestReadHelpers:
                              "low_vol_strategy": "STAT_ARB",
                              "med_vol_strategy": "REVERSAL",
                              "high_vol_reduce_pct": 0.5,
-                             "extreme_vol_halt": True,
                              "max_allocation_pct": 0.05},
         }
         (cfg_dir / "strategy_params.yaml").write_text(yaml.dump(data))
@@ -178,7 +177,6 @@ class TestUpdateStrategyParams:
                              "low_vol_strategy": "STAT_ARB",
                              "med_vol_strategy": "REVERSAL",
                              "high_vol_reduce_pct": 0.5,
-                             "extreme_vol_halt": True,
                              "max_allocation_pct": 0.05},
         }
 

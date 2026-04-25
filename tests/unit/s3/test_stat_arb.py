@@ -34,9 +34,6 @@ def strategy_cfg():
             exit_s_score_short=0.75,
             max_allocation_pct=0.40,
         ),
-        regime_combo=types.SimpleNamespace(
-            extreme_vol_halt=True,
-        ),
     )
 
 
@@ -80,11 +77,11 @@ class TestStatArbSignals:
         assert result == []
 
     def test_extreme_regime_no_halt_when_flag_false(self, strategy_cfg):
-        strategy_cfg.regime_combo.extreme_vol_halt = False
         ou = OUResult("AAPL", kappa=15.0, mu=0.0, sigma_eq=0.05, beta=0.8,
                       s_score=-1.8, valid=True, cumulative_residual=-0.09)
         with _patch_adj(1.0):
-            result = compute_stat_arb_signals([ou], strategy_cfg, {}, "EXTREME", RUN_ID, TODAY)
+            result = compute_stat_arb_signals([ou], strategy_cfg, {}, "EXTREME", RUN_ID, TODAY,
+                                              extreme_vol_halt=False)
         assert len(result) == 1
 
     def test_zero_adj_filters_signal(self, strategy_cfg):

@@ -140,17 +140,17 @@ class TestCheckTotalExposure:
 class TestCheckExtremeVix:
     def test_passes_when_halt_disabled(self, mock_cfg, sample_signal):
         sample_signal.regime = "EXTREME"
-        mock_cfg.strategy_params.regime_combo.extreme_vol_halt = False
+        mock_cfg.risk.extreme_vol_halt = False
         check_extreme_vix(sample_signal, mock_cfg)  # no exception
 
     def test_passes_when_regime_not_extreme(self, mock_cfg, sample_signal):
         sample_signal.regime = "HIGH_VOL"
-        mock_cfg.strategy_params.regime_combo.extreme_vol_halt = True
+        mock_cfg.risk.extreme_vol_halt = True
         check_extreme_vix(sample_signal, mock_cfg)  # no exception
 
     def test_raises_when_halt_enabled_and_regime_extreme(self, mock_cfg, sample_signal):
         sample_signal.regime = "EXTREME"
-        mock_cfg.strategy_params.regime_combo.extreme_vol_halt = True
+        mock_cfg.risk.extreme_vol_halt = True
         with pytest.raises(RiskBreach, match="Extreme VIX halt"):
             check_extreme_vix(sample_signal, mock_cfg)
 
