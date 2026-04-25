@@ -6,7 +6,7 @@ import pytest
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import sessionmaker
 
-from shared.models import (
+from algotrader.shared.models import (
     Base, Job, OUParam, Signal, SystemEvent,
 )
 

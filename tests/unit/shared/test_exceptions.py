@@ -1,7 +1,7 @@
 """Unit tests for shared/exceptions.py."""
 import pytest
 
-from shared.exceptions import (
+from algotrader.shared.exceptions import (
     AlgoTraderError, BacktestError, ConfigError, DataError,
     ExecutionError, RiskBreach, SentimentError, SignalError,
 )

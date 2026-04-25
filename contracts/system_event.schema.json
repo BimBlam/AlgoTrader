@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/addyd/algotrader/contracts/system_event.schema.json",
+  "title": "SystemEvent",
+  "description": "Canonical event row written to the system_events table.",
+  "type": "object",
+  "required": ["event_type", "severity", "subsystem", "message"],
+  "properties": {
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "DATA_READY", "SENTIMENT_READY", "SIGNALS_READY", "SIGNAL_FILTERED",
+        "JOB_FAILED", "RISK_HALT", "MODE_CHANGED", "CONFIG_CHANGED",
+        "USER_HALT", "USER_RESUME", "SYSTEM_START", "SYSTEM_STOP"
+      ]
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["INFO", "WARNING", "CRITICAL"]
+    },
+    "subsystem": {
+      "type": "string",
+      "enum": ["S1", "S2", "S3", "S4", "S5", "S6", "S7"]
+    },
+    "message": { "type": "string" },
+    "payload": { "type": "object" }
+  }
+}

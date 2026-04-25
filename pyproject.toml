@@ -8,10 +8,13 @@ version = "1.0.0"
 description = "Modular, multi-process algorithmic trading platform for US equities"
 requires-python = ">=3.11"
 
+[project.scripts]
+algotrader = "algotrader.cli:main"
+
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["shared*", "s1_orchestrator*", "s2_data_ingestion*", "s3_signal_engine*", "s4_backtest_validator*", "s5_sentiment*", "s6_execution*", "s7_dashboard*"]
-exclude = ["tests*", "migrations*", ".venv*"]
+include = ["algotrader*"]
+exclude = ["tests*", "migrations*", ".venv*", "cmd*", "internal*", "pkg*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests/unit"]
@@ -25,7 +28,7 @@ select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM"]
 ignore = ["E501"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["shared", "s1_orchestrator", "s2_data_ingestion", "s3_signal_engine", "s4_backtest_validator", "s5_sentiment", "s6_execution", "s7_dashboard"]
+known-first-party = ["algotrader"]
 
 [tool.mypy]
 python_version = "3.11"

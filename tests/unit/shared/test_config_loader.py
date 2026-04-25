@@ -3,8 +3,8 @@
 import pytest
 import yaml
 
-from shared.config_loader import get_config, invalidate_cache, load_config
-from shared.exceptions import ConfigError
+from algotrader.shared.config_loader import get_config, invalidate_cache, load_config
+from algotrader.shared.exceptions import ConfigError
 
 
 def test_load_valid_config(config_dir):

@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/addyd/algotrader/contracts/job_token.schema.json",
+  "title": "JobToken",
+  "description": "Wakeup token passed via multiprocessing.Queue between orchestrator and workers.",
+  "type": "object",
+  "required": ["job", "run_id"],
+  "properties": {
+    "job": {
+      "type": "string",
+      "enum": [
+        "INGEST_EOD",
+        "RUN_SENTIMENT",
+        "RUN_SIGNALS",
+        "RUN_BACKTEST",
+        "EXECUTE_ORDERS",
+        "RECONCILE"
+      ]
+    },
+    "run_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "account_type": {
+      "type": "string",
+      "enum": ["PAPER", "LIVE"],
+      "description": "Required for EXECUTE_ORDERS and RECONCILE in BOTH mode."
+    }
+  },
+  "additionalProperties": false
+}

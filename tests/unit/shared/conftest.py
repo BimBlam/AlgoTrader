@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from shared.config_loader import invalidate_cache
+from algotrader.shared.config_loader import invalidate_cache
 
 
 @pytest.fixture(autouse=True)

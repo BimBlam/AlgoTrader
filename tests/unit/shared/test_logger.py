@@ -2,7 +2,7 @@
 import logging
 
 
-from shared.logger import _configure_structlog, get_logger
+from algotrader.shared.logger import _configure_structlog, get_logger
 
 
 def test_get_logger_returns_bound_logger(tmp_path):
@@ -20,7 +20,7 @@ def test_get_logger_accepts_module_name(tmp_path):
 
 
 def test_log_dir_created(tmp_path):
-    import shared.logger as logger_mod
+    import algotrader.shared.logger as logger_mod
     logger_mod._configured = False          # reset so configure runs fresh
 
     log_dir = tmp_path / "nested" / "logs"

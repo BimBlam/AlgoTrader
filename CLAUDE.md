@@ -27,18 +27,18 @@ pip install -r requirements-dev.txt
 python -m pytest
 
 # Run tests for a single subsystem
-python -m pytest tests/unit/s3/
+python -m pytest tests/unit/signals/
 python -m pytest tests/unit/shared/
 
 # Run a single test file or test
-python -m pytest tests/unit/s3/test_ou_fitting.py
-python -m pytest tests/unit/s3/test_ou_fitting.py::test_kappa_positive
+python -m pytest tests/unit/signals/test_ou_fitting.py
+python -m pytest tests/unit/signals/test_ou_fitting.py::test_kappa_positive
 
 # Linting
 ruff check .
 
 # Type checking
-mypy shared/ s1_orchestrator/ s2_data_ingestion/ s3_signal_engine/ s4_backtest_validator/ s5_sentiment/
+mypy algotrader/
 ```
 
 Tests live under `tests/unit/<subsystem>/`. Each subsystem has a `conftest.py` providing shared fixtures (`mock_cfg`, `mock_session`, etc.).
@@ -49,18 +49,20 @@ AlgoTrader is a **modular, multi-process algorithmic trading platform** for US e
 
 ### Subsystem Map
 
-| ID  | Directory                | Status       | Responsibility                                                     |
-| --- | ------------------------ | ------------ | ------------------------------------------------------------------ |
-| —   | `shared/`                | ✅ Complete  | Config, DB session, ORM models, logging, enums, exceptions         |
-| S1  | `s1_orchestrator/`       | ✅ Complete  | State machine, APScheduler jobs, process lifecycle, halt policy    |
-| S2  | `s2_data_ingestion/`     | ✅ Complete  | OHLCV download (yfinance), log-returns parquet, news/social scrape |
-| S3  | `s3_signal_engine/`      | ✅ Complete  | OU fitting, s-scores, reversal/regime signals, sentiment layer     |
-| S4  | `s4_backtest_validator/` | ✅ Complete  | Walk-forward, Monte Carlo (GARCH), bootstrap, CSCV, PBO            |
-| S5  | `s5_sentiment/`          | ✅ Complete  | FinBERT scoring, attention z-score, residualisation                |
-| S6  | `s6_execution/`          | ✅ Complete  | IBKR order submission, fill tracking, risk guards                  |
-| S7  | `s7_dashboard/`          | ✅ Complete  | Dash UI: approval, calibration, monitoring, halt/resume            |
+| ID  | Directory                   | Lang   | Status       | Responsibility                                                  |
+| --- | --------------------------- | ------ | ------------ | --------------------------------------------------------------- |
+| —   | `algotrader/shared/`        | Python | ✅ Complete  | Config, DB session, ORM models, logging, enums, exceptions      |
+| S1  | `algotrader/orchestrator/`  | Python | ✅ Complete  | State machine, APScheduler jobs, process lifecycle, halt policy |
+| S2  | `algotrader/ingestion/`     | Python | ✅ Complete  | OHLCV download, log-returns parquet, news/social scrape         |
+| S3  | `algotrader/signals/`       | Python | ✅ Complete  | OU fitting, s-scores, reversal/regime signals, sentiment layer  |
+| S4  | `algotrader/backtest/`      | Python | ✅ Complete  | Walk-forward, Monte Carlo, bootstrap, CSCV, PBO                 |
+| S5  | `algotrader/sentiment/`     | Python | ✅ Complete  | FinBERT scoring, attention z-score, residualisation             |
+| S6  | `algotrader/execution/`     | Python | ✅ Complete  | IBKR order submission, fill tracking, risk guards               |
+| S7  | `algotrader/dashboard/`     | Python | ✅ Complete  | Dash UI: approval, calibration, monitoring, halt/resume         |
 
-**Critical rule: No subsystem may import from another subsystem package.** All cross-cutting utilities come from `shared/` only.
+**Go migration candidates:** `cmd/algotrade/`, `internal/state/`, `internal/scheduler/`, `internal/ibkr/`. See `MIGRATION.md`.
+
+**Critical rule:** No subsystem may import from another subsystem package. All cross-cutting utilities come from `algotrader.shared` only.
 
 ### Data Flow
 
@@ -88,17 +90,17 @@ Inter-process communication: `multiprocessing.Queue` for wakeup tokens only; Pos
 ### Shared Utilities (`shared/`)
 
 ```python
-from shared.config_loader import get_config        # AppConfig (pydantic v2, cached)
-from shared.db import get_session, init_db         # SQLAlchemy 2.0
-from shared.models import Signal, Order, ...       # ORM models (all tables)
-from shared.constants import SystemMode, EventType, SignalStatus, ...
-from shared.exceptions import RiskBreach, DataError, SignalError, ...
-from shared.logger import get_logger               # structlog, JSON format
+from algotrader.shared.config_loader import get_config   # AppConfig (pydantic v2, cached)
+from algotrader.shared.db import get_session, init_db    # SQLAlchemy 2.0
+from algotrader.shared.models import Signal, Order, ...  # ORM models (all tables)
+from algotrader.shared.constants import SystemMode, EventType, SignalStatus, ...
+from algotrader.shared.exceptions import RiskBreach, DataError, SignalError, ...
+from algotrader.shared.logger import get_logger          # structlog, JSON format
 ```
 
 - `init_db(cfg.system.db_url)` must be called once at each subsystem entry point before any `get_session()` call.
 - `create_all_tables()` is for the setup script and integration tests only — never in production entry points. Schema changes require an Alembic migration.
-- `get_config()` returns a cached `AppConfig`. Call `shared.config_loader.invalidate_cache()` before re-reading after a `CONFIG_CHANGED` event.
+- `get_config()` returns a cached `AppConfig`. Call `algotrader.shared.config_loader.invalidate_cache()` before re-reading after a `CONFIG_CHANGED` event.
 - `AppConfig` exposes `universe_hash` and `strategy_params_hash` (SHA-256, computed at load time) — S4 reads these directly rather than hashing files itself.
 
 ### Configuration (`config/`)
@@ -115,7 +117,7 @@ All business parameters come from `get_config()` — nothing hardcoded.
 
 ### File Storage
 
-- **SSD:** `config/`, `shared/`, `s*/`, `tests/`, `data/processed/` (OHLCV + returns parquet), `logs/`, active PostgreSQL DB
+- **SSD:** `config/`, `algotrader/`, `tests/`, `data/processed/` (OHLCV + returns parquet), `logs/`, active PostgreSQL DB
 - **HDD** (`cfg.system.data_dir_hdd`): `raw/news/YYYY-MM-DD.json`, `raw/social/YYYY-MM-DD.json`, `data/archive/`, `data/backtest/`
 
 S5 constructs raw input paths as `cfg.system.data_dir_hdd / "raw" / "news" / f"{date}.json"`.
