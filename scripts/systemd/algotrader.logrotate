@@ -1,0 +1,13 @@
+/opt/algotrader/logs/algotrader.log {
+    daily
+    rotate 30
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 0644 algotrader algotrader
+    sharedscripts
+    postrotate
+        /bin/kill -HUP $(systemctl show --property=MainPID --value algotrader.service) 2>/dev/null || true
+    endscript
+}

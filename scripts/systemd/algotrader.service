@@ -1,0 +1,35 @@
+[Unit]
+Description=AlgoTrader Orchestrator
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=algotrader
+Group=algotrader
+WorkingDirectory=/opt/algotrader
+Environment=PYTHONPATH=/opt/algotrader
+Environment=PATH=/opt/algotrader/.venv/bin:/usr/local/bin:/usr/bin:/bin
+Environment=DATABASE_URL=postgresql://localhost/algotrader
+# Load optional credentials from a drop-in file (systemctl edit algotrader)
+# Environment=REDDIT_CLIENT_ID=...
+# Environment=REDDIT_CLIENT_SECRET=...
+
+ExecStartPre=/opt/algotrader/.venv/bin/python -c "import algotrader"
+ExecStart=/opt/algotrader/.venv/bin/python -m algotrader.cli orchestrator
+ExecReload=/bin/kill -HUP $MAINPID
+
+Restart=on-failure
+RestartSec=10
+
+# Security hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/algotrader/data /opt/algotrader/logs /opt/algotrader/output
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+
+[Install]
+WantedBy=multi-user.target

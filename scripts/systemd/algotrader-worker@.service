@@ -1,0 +1,33 @@
+[Unit]
+Description=AlgoTrader Worker — %i
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=algotrader
+Group=algotrader
+WorkingDirectory=/opt/algotrader
+Environment=PYTHONPATH=/opt/algotrader
+Environment=PATH=/opt/algotrader/.venv/bin:/usr/local/bin:/usr/bin:/bin
+Environment=DATABASE_URL=postgresql://localhost/algotrader
+# Passed by the orchestrator via systemd-run; defaults here for manual use:
+Environment=JOB_TYPE=%i
+Environment=RUN_ID=manual
+Environment=ACCOUNT_TYPE=PAPER
+
+ExecStart=/opt/algotrader/.venv/bin/python -m algotrader.cli %i %RUN_ID%
+ExecStopPost=-/opt/algotrader/.venv/bin/python -c \
+    "from algotrader.shared.db import init_db; from algotrader.shared.config_loader import get_config; \
+     init_db(get_config().system.db_url)"
+
+# Workers are one-shot jobs; do not auto-restart
+Restart=no
+
+# Security hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/algotrader/data /opt/algotrader/logs /opt/algotrader/output
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
