@@ -5,6 +5,7 @@ GO := go
 
 help:
 	@echo "AlgoTrader build targets"
+	@echo "  bootstrap   One-command setup for a fresh machine"
 	@echo "  build       Build both Python wheel and Go binary"
 	@echo "  build-go    Build the Go orchestrator/execution binary"
 	@echo "  build-py    Build the Python wheel"
@@ -12,6 +13,9 @@ help:
 	@echo "  lint        Run ruff and mypy on Python code"
 	@echo "  fmt         Auto-format Python code with ruff"
 	@echo "  clean       Remove build artifacts"
+
+bootstrap:
+	$(PYTHON) scripts/bootstrap.py --paper
 
 build: build-go build-py
 
