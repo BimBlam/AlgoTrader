@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "AlgoTrader",
+  "project_id": "8e00f6fe-5d2b-440c-9d83-143377de3bc9"
+}
