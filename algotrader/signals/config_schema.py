@@ -1,5 +1,4 @@
-"""
-Pydantic v2 schemas for S3-relevant config sections.
+"""Pydantic v2 schemas for S3-relevant config sections.
 
 These are used to validate that the strategy_params.yaml and
 sentiment_params.yaml sections contain all required fields before
@@ -8,6 +7,9 @@ but we define the schemas here so S3 tests can build minimal configs
 without loading the full AppConfig.
 """
 from pydantic import BaseModel, Field, field_validator
+
+# Re-export from shared to avoid duplication (see AlgoTrader-blg)
+from algotrader.shared.config_loader import RegimeComboParams as RegimeComboConfig
 
 
 class StatArbConfig(BaseModel):
@@ -35,15 +37,6 @@ class ReversalConfig(BaseModel):
         if v <= long_decile:
             raise ValueError("short_decile must be > long_decile")
         return v
-
-
-class RegimeComboConfig(BaseModel):
-    enabled: bool = True
-    vix_sma_lookback: int = Field(ge=5)
-    low_vol_strategy: str
-    med_vol_strategy: str
-    high_vol_reduce_pct: float = Field(ge=0.0, le=1.0)
-    max_allocation_pct: float = Field(ge=0.0, le=1.0)
 
 
 class StrategyParamsConfig(BaseModel):

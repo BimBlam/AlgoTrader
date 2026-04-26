@@ -108,11 +108,11 @@ class ReversalParams(BaseModel):
 
 class RegimeComboParams(BaseModel):
     enabled: bool
-    vix_sma_lookback: int
+    vix_sma_lookback: int = Field(ge=5)
     low_vol_strategy: str
     med_vol_strategy: str
-    high_vol_reduce_pct: float
-    max_allocation_pct: float
+    high_vol_reduce_pct: float = Field(ge=0.0, le=1.0)
+    max_allocation_pct: float = Field(ge=0.0, le=1.0)
 
 
 class StrategyParamsConfig(BaseModel):
