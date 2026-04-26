@@ -8,14 +8,22 @@ attention_z_threshold: 2.0
 attention_lookback_days: 20
 
 sources:
+  # Reddit scraping requires PRAW credentials as environment variables:
+  #   export REDDIT_CLIENT_ID="your_client_id"
+  #   export REDDIT_CLIENT_SECRET="your_client_secret"
+  #   export REDDIT_USER_AGENT="algotrader-s2/1.0"  (optional)
+  # Set enabled: true only after credentials are configured.
   reddit:
-    enabled: true
+    enabled: false
     subreddits:
       - wallstreetbets
       - investing
       - stocks
+
   twitter:
     enabled: false
+
+  # Yahoo Finance news — no API key required.
   news:
     enabled: true
     provider: "newsapi"

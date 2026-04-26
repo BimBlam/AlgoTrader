@@ -252,10 +252,16 @@ def step_summary() -> None:
     4. Verify DB connectivity:
        psql -d algotrader -c "\\dt"
 
+  Optional credentials (set before enabling in config):
+    export REDDIT_CLIENT_ID="..."
+    export REDDIT_CLIENT_SECRET="..."
+    export DATABASE_URL="postgresql://localhost/algotrader"
+
   Config files:
     {CONFIG_DIR}/system.yaml      — mode, DB URL, IBKR ports
     {CONFIG_DIR}/risk.yaml        — position limits, halt rules
     {CONFIG_DIR}/strategy_params.yaml — strategy toggles
+    {CONFIG_DIR}/sentiment_params.yaml — sentiment model, social sources
 """)
 
 

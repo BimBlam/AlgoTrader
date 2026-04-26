@@ -26,7 +26,7 @@ Read these in order before touching any code:
 
 | Document | Purpose |
 |----------|---------|
-| `.docs/Frozen Project Specification v1.0.md` | **FROZEN — source of record.** Architecture, DB schema, contracts, configs, coding standards. If any conflict exists between sources, this wins. |
+| `.docs/Frozen Project Specification v1.0.md` | **Reference design doc** — Architecture, DB schema, contracts, configs, coding standards. For historical context; active tracking is in beads. |
 | `.docs/implementation-log.md` | Living log of resolved deviations and design decisions (not overrides) |
 | `MIGRATION.md` | Polyglot roadmap (Go migration targets) and reorganization log |
 | `ALGOTRADER_GLOBAL_BRIEF.md` | System overview and subsystem map (if present) |
@@ -80,9 +80,23 @@ AlgoTrader/
 └── tests/unit/<domain>/      One test dir per subsystem
 ```
 
+## External Credentials
+
+Some features require environment variables. None are required for basic operation.
+
+| Variable | Required by | How to get |
+|---|---|---|
+| `DATABASE_URL` | system.yaml | PostgreSQL connection string |
+| `REDDIT_CLIENT_ID` | sentiment_params.yaml | Reddit app settings (https://www.reddit.com/prefs/apps) |
+| `REDDIT_CLIENT_SECRET` | sentiment_params.yaml | Same as above |
+| `REDDIT_USER_AGENT` | sentiment_params.yaml | Optional, defaults to `algotrader-s2/1.0` |
+
+Reddit scraping is **disabled by default** (`sources.reddit.enabled: false`).
+Enable it only after setting the env vars above and flipping the flag.
+
 ## Rules for Agent Work
 
-1. **Read the spec first.** The Frozen Spec is authoritative. The implementation log records deviations — do not re-deviate without updating both.
+1. **Check beads first.** `bd ready` shows active work. The Frozen Spec is reference material, not the living tracker.
 2. **No cross-subsystem imports.** Only import from `algotrader.shared` or within the same subsystem directory.
 3. **All imports use `algotrader.` prefix.** `from algotrader.shared.config_loader import get_config`, not `from shared...`.
 4. **Config only via `get_config()`.** Nothing hardcoded. Call `init_db()` at every entry point.
