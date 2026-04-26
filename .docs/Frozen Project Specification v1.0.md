@@ -1,6 +1,14 @@
 # AlgoTrader — Frozen Project Specification v1.0
 
-> **Status: FROZEN.** This document is the authoritative reference for all module development. No module may deviate from the contracts, conventions, data models, or policies defined here without a revision to this document. All future module-generation prompts must reference this specification.
+> **Status: DEMOTED → Reference Design Document.**  
+> This specification was the authoritative reference during initial development. It is now superseded by the **beads issue tracker** (`bd list`) as the living project management layer.  
+> The spec remains valuable as architectural context and design rationale, but operational tracking, blockers, and work items live in beads issues. See `bd ready` for current work.
+
+---
+
+## Historical Note
+
+> **Original Status (development phase):** FROZEN. This document was the authoritative reference for all module development. No module could deviate from the contracts, conventions, data models, or policies defined here without a revision to this document.
 
 ---
 
