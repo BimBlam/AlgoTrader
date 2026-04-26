@@ -2,9 +2,8 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from unittest.mock import MagicMock, patch
-
 
 from algotrader.orchestrator.watchdog import Watchdog
 
@@ -80,7 +79,7 @@ class TestWatchdogCriticalEventDetection:
         critical_event.event_type = "RISK_HALT"
         critical_event.subsystem = "S6"
         critical_event.message = "Risk breach"
-        critical_event.timestamp = datetime.now(tz=timezone.utc)
+        critical_event.timestamp = datetime.now(tz=UTC)
 
         session = make_session_with_events([critical_event])
 
@@ -102,7 +101,7 @@ class TestWatchdogCriticalEventDetection:
         assert halt_reasons == []
 
     def test_watermark_advances_after_event(self):
-        t = datetime(2026, 1, 1, 10, 0, 0, tzinfo=timezone.utc)
+        t = datetime(2026, 1, 1, 10, 0, 0, tzinfo=UTC)
         critical_event = MagicMock()
         critical_event.event_type = "RISK_HALT"
         critical_event.subsystem = "S1"

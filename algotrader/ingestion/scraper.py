@@ -46,7 +46,7 @@ def scrape_news(
     Skips silently if news.enabled is False in sentiment_params.yaml.
     Returns the output path regardless (path may not exist if disabled).
     """
-    sources = cfg.sentiment.sources
+    sources = cfg.sentiment_params.sources
     news_cfg = sources.get("news") if isinstance(sources, dict) else getattr(sources, "news", None)
     enabled = (
         news_cfg.get("enabled", False)
@@ -97,7 +97,7 @@ def scrape_social(
     Twitter raises NotImplementedError when enabled — the config default
     is twitter.enabled: false and must stay that way until implemented.
     """
-    sources = cfg.sentiment.sources
+    sources = cfg.sentiment_params.sources
     reddit_cfg = sources.get("reddit") if isinstance(sources, dict) else getattr(sources, "reddit", None)
     twitter_cfg = sources.get("twitter") if isinstance(sources, dict) else getattr(sources, "twitter", None)
 
@@ -137,7 +137,7 @@ def scrape_social(
     for sub_name in subreddits:
         try:
             for post in reddit.subreddit(sub_name).new(limit=200):
-                post_date = datetime.datetime.utcfromtimestamp(post.created_utc).date()
+                post_date = datetime.datetime.fromtimestamp(post.created_utc, tz=datetime.UTC).date()
                 if post_date != today:
                     continue
                 for ticker in _find_mentioned_tickers(post.title, ticker_set):
@@ -179,7 +179,7 @@ def _load_json_safe(path: Path) -> list[dict]:
     if not path.exists():
         return []
     try:
-        with open(path, "r", encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             return json.load(f)
     except (json.JSONDecodeError, OSError) as exc:
         log.warning("s2.json_load_error", path=str(path), error=str(exc))
@@ -215,7 +215,7 @@ def _merge_by_post_id(existing: list[dict], new_items: list[dict]) -> list[dict]
 
 
 def _unix_to_date(ts: int) -> datetime.date:
-    return datetime.datetime.utcfromtimestamp(ts).date()
+    return datetime.datetime.fromtimestamp(ts, tz=datetime.UTC).date()
 
 
 def _find_mentioned_tickers(text: str, ticker_set: set[str]) -> list[str]:
@@ -240,7 +240,7 @@ def _build_reddit_client() -> praw.Reddit:
     client_secret = os.environ.get("REDDIT_CLIENT_SECRET", "")
     user_agent = os.environ.get("REDDIT_USER_AGENT", "algotrader-s2/1.0")
     if not client_id or not client_secret:
-        raise EnvironmentError(
+        raise OSError(
             "REDDIT_CLIENT_ID and REDDIT_CLIENT_SECRET must be set "
             "as environment variables to enable Reddit scraping."
         )

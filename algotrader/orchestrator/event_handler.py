@@ -16,8 +16,8 @@ USER_RESUME    — return the system from HALT to IDLE (§7.2).
 from __future__ import annotations
 
 import threading
-from datetime import datetime, timezone
-from typing import Callable
+from collections.abc import Callable
+from datetime import UTC, datetime
 
 from algotrader.shared.config_loader import get_config, invalidate_cache
 from algotrader.shared.constants import ApprovalMode, EventType, SystemMode
@@ -29,7 +29,7 @@ log = get_logger(__name__)
 
 
 def _utcnow() -> datetime:
-    return datetime.now(tz=timezone.utc)
+    return datetime.now(tz=UTC)
 
 
 class EventHandler:

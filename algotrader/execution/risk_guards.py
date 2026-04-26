@@ -22,7 +22,7 @@ caught by the caller, the signal is denied, and execution continues.
 from __future__ import annotations
 
 import math
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from zoneinfo import ZoneInfo
 
 from sqlalchemy.orm import Session
@@ -56,7 +56,7 @@ def check_daily_loss(
     Guard 1 (HALT): raise RiskBreach if today's realised P&L is below the
     configured daily loss limit.
     """
-    today_start = datetime.now(tz=timezone.utc).replace(
+    today_start = datetime.now(tz=UTC).replace(
         hour=0, minute=0, second=0, microsecond=0
     )
     positions_closed_today = (

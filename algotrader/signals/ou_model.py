@@ -18,7 +18,6 @@ US Equities Market."
 import datetime
 import math
 from dataclasses import dataclass
-from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -114,8 +113,8 @@ def _fit_single(
     min_kappa: float,
     etf_returns: dict[str, float],
     sector_etf: str,
-    prior: Optional[dict],
-) -> Optional[OUResult]:
+    prior: dict | None,
+) -> OUResult | None:
     """
     Fit OU parameters for a single ticker.
     Returns None if insufficient data.
@@ -199,7 +198,7 @@ def _fit_single(
     )
 
 
-def _load_etf_log_returns(etf_ticker: Optional[str], data_dir, n_obs: int) -> np.ndarray:
+def _load_etf_log_returns(etf_ticker: str | None, data_dir, n_obs: int) -> np.ndarray:
     """
     Load log returns for the sector ETF aligned to n_obs length.
     Returns zeros if the ETF parquet is unavailable — OLS then yields

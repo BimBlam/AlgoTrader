@@ -1,7 +1,6 @@
 """Unit tests for shared/logger.py."""
 import logging
 
-
 from algotrader.shared.logger import _configure_structlog, get_logger
 
 

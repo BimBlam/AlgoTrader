@@ -5,9 +5,9 @@ import pytest
 from pydantic import ValidationError
 
 from algotrader.signals.config_schema import (
-    StatArbConfig,
-    ReversalConfig,
     RegimeComboConfig,
+    ReversalConfig,
+    StatArbConfig,
     StrategyParamsConfig,
 )
 

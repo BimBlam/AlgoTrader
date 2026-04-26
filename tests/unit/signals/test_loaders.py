@@ -8,13 +8,12 @@ from unittest.mock import MagicMock
 import pandas as pd
 import pytest
 
+from algotrader.shared.exceptions import DataError
 from algotrader.signals.loaders import (
-    load_returns,
     load_prior_ou_params,
+    load_returns,
     load_sentiment_scores,
 )
-from algotrader.shared.exceptions import DataError
-
 
 TODAY = datetime.date(2025, 1, 15)
 

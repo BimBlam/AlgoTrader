@@ -1,10 +1,15 @@
 """Pure metric function tests — no I/O."""
 import numpy as np
 import pandas as pd
+
 from algotrader.backtest.metrics import (
-    sharpe_ratio, sortino_ratio, max_drawdown,
-    equity_curve_from_returns, deflated_sharpe_ratio,
+    deflated_sharpe_ratio,
+    equity_curve_from_returns,
+    max_drawdown,
+    sharpe_ratio,
+    sortino_ratio,
 )
+
 
 def test_sharpe_positive():
     assert sharpe_ratio(pd.Series([0.01] * 252)) > 0

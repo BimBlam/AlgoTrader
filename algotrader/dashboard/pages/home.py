@@ -7,7 +7,7 @@ Polling: refreshed on every global-interval tick (5 s).
 """
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import dash_bootstrap_components as dbc
 from dash import Input, Output, html
@@ -72,7 +72,7 @@ def update_home(_n):
             state_display = latest_event.subsystem if latest_event else "—"
 
             # Today's P&L
-            today_start = datetime.now(tz=timezone.utc).replace(
+            today_start = datetime.now(tz=UTC).replace(
                 hour=0, minute=0, second=0, microsecond=0
             )
             closed_today = (

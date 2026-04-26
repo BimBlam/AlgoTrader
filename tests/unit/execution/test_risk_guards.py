@@ -6,8 +6,6 @@ import datetime
 import pytest
 from freezegun import freeze_time
 
-from algotrader.shared.exceptions import RiskBreach
-from algotrader.shared.models import Position
 from algotrader.execution.risk_guards import (
     check_daily_loss,
     check_extreme_vix,
@@ -18,7 +16,8 @@ from algotrader.execution.risk_guards import (
     clip_position_size,
     run_per_signal_guards,
 )
-
+from algotrader.shared.exceptions import RiskBreach
+from algotrader.shared.models import Position
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -28,8 +27,8 @@ def _closed_position(pnl: float, account_type: str = "PAPER") -> Position:
         side="BUY",
         entry_price=100.0,
         quantity=10,
-        entry_time=datetime.datetime.now(tz=datetime.timezone.utc),
-        exit_time=datetime.datetime.now(tz=datetime.timezone.utc),
+        entry_time=datetime.datetime.now(tz=datetime.UTC),
+        exit_time=datetime.datetime.now(tz=datetime.UTC),
         realised_pnl=pnl,
         status="CLOSED",
         account_type=account_type,
@@ -42,7 +41,7 @@ def _open_position(entry_price: float = 100.0, quantity: int = 10, account_type:
         side="BUY",
         entry_price=entry_price,
         quantity=quantity,
-        entry_time=datetime.datetime.now(tz=datetime.timezone.utc),
+        entry_time=datetime.datetime.now(tz=datetime.UTC),
         status="OPEN",
         account_type=account_type,
     )

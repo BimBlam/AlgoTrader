@@ -15,13 +15,13 @@ from __future__ import annotations
 
 import datetime
 import uuid
-from typing import Any, Dict, Optional
+from typing import Any
 
 from sqlalchemy.orm import Session
 
-from algotrader.shared.models import BacktestRun, SystemEvent
 from algotrader.shared.constants import EventType, Severity
 from algotrader.shared.logger import get_logger
+from algotrader.shared.models import BacktestRun, SystemEvent
 
 log = get_logger(__name__)
 
@@ -76,7 +76,7 @@ def write_backtest_record(
     """
     record = BacktestRun(
         run_id=uuid.UUID(run_id),
-        created_at=datetime.datetime.now(tz=datetime.timezone.utc),
+        created_at=datetime.datetime.now(tz=datetime.UTC),
         date_range_start=date_range_start,
         date_range_end=date_range_end,
         strategy=strategy,
@@ -105,9 +105,9 @@ def write_event(
     event_type: EventType,
     severity: Severity,
     subsystem: str,
-    run_id: Optional[str],
+    run_id: str | None,
     message: str,
-    payload: Optional[Dict[str, Any]] = None,
+    payload: dict[str, Any] | None = None,
 ) -> SystemEvent:
     """
     Append a row to `system_events` using only canonical EventType values.
@@ -127,7 +127,7 @@ def write_event(
     payload    : optional JSONB dict
     """
     event = SystemEvent(
-        timestamp=datetime.datetime.now(tz=datetime.timezone.utc),
+        timestamp=datetime.datetime.now(tz=datetime.UTC),
         event_type=event_type.value if hasattr(event_type, "value") else event_type,
         severity=severity.value if hasattr(severity, "value") else severity,
         subsystem=subsystem,

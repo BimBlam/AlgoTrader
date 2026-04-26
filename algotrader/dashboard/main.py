@@ -22,7 +22,6 @@ Startup sequence
 """
 from __future__ import annotations
 
-
 from dash import Input, Output
 
 from algotrader.shared.config_loader import get_config
@@ -30,10 +29,10 @@ from algotrader.shared.db import init_db
 from algotrader.shared.logger import get_logger
 
 from .app import app
+from .layout import get_layout
 
 # Import pages — this registers all their callbacks with `app`
 from .pages import backtest, calibration, home, logs, signals  # noqa: F401
-from .layout import get_layout
 
 log = get_logger(__name__)
 
@@ -58,8 +57,10 @@ def _register_routing_callback() -> None:
 
     # ── Halt/Resume button callbacks ──────────────────────────────────────────
     from dash import callback_context, no_update
-    from .writer import write_halt_event, write_resume_event
+
     from algotrader.shared.db import get_session
+
+    from .writer import write_halt_event, write_resume_event
 
     @app.callback(
         Output("halt-modal", "is_open"),

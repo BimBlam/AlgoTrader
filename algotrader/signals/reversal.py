@@ -16,10 +16,10 @@ import datetime
 
 import pandas as pd
 
-from algotrader.shared.constants import SignalStrategy, SignalSide
+from algotrader.shared.constants import SignalSide, SignalStrategy
 from algotrader.shared.logger import get_logger
-from algotrader.signals.stat_arb import SignalCandidate
 from algotrader.signals.sentiment_adj import compute_directional_sentiment_adj
+from algotrader.signals.stat_arb import SignalCandidate
 
 log = get_logger(__name__)
 

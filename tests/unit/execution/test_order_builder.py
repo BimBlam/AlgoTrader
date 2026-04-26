@@ -8,8 +8,8 @@ import pandas as pd
 import pytest
 from ib_insync import LimitOrder, MarketOrder, Stock
 
-from algotrader.shared.exceptions import DataError
 from algotrader.execution.order_builder import build_contract, build_order, get_limit_price
+from algotrader.shared.exceptions import DataError
 
 
 def _make_cfg(data_dir: str, allow_market: bool = False) -> SimpleNamespace:

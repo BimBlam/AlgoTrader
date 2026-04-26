@@ -6,8 +6,8 @@ from types import SimpleNamespace
 import pandas as pd
 import pytest
 
-from algotrader.shared.exceptions import DataError
 from algotrader.execution.sizer import compute_atr, compute_position_size
+from algotrader.shared.exceptions import DataError
 
 
 def _make_ohlcv(n: int, high_base: float = 105.0, low_base: float = 95.0, close_base: float = 100.0) -> pd.DataFrame:

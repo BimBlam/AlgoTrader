@@ -19,18 +19,22 @@ import datetime
 import sys
 
 from algotrader.shared.config_loader import get_config
-from algotrader.shared.db import get_session, init_db
-from algotrader.shared.logger import get_logger
-from algotrader.shared.exceptions import DataError, SignalError
 from algotrader.shared.constants import EventType, Severity
-
-from algotrader.signals.loaders import load_returns, load_sector_etf_returns, load_prior_ou_params, load_sentiment_scores
-from algotrader.signals.ou_model import fit_ou_params, write_ou_params
-from algotrader.signals.stat_arb import compute_stat_arb_signals
-from algotrader.signals.reversal import compute_reversal_signals
-from algotrader.signals.regime import classify_regime
+from algotrader.shared.db import get_session, init_db
+from algotrader.shared.exceptions import DataError, SignalError
+from algotrader.shared.logger import get_logger
 from algotrader.signals.competition import resolve_competition
-from algotrader.signals.writer import write_signals, write_event
+from algotrader.signals.loaders import (
+    load_prior_ou_params,
+    load_returns,
+    load_sector_etf_returns,
+    load_sentiment_scores,
+)
+from algotrader.signals.ou_model import fit_ou_params, write_ou_params
+from algotrader.signals.regime import classify_regime
+from algotrader.signals.reversal import compute_reversal_signals
+from algotrader.signals.stat_arb import compute_stat_arb_signals
+from algotrader.signals.writer import write_event, write_signals
 
 log = get_logger(__name__)
 

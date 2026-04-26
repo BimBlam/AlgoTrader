@@ -72,7 +72,7 @@ def sample_signal():
     return Signal(
         id=1,
         run_id=uuid.uuid4(),
-        created_at=datetime.datetime.now(tz=datetime.timezone.utc),
+        created_at=datetime.datetime.now(tz=datetime.UTC),
         ticker="AAPL",
         strategy="STAT_ARB",
         side="LONG",
@@ -107,7 +107,7 @@ def sample_position():
         side="BUY",
         entry_price=150.0,
         quantity=10,
-        entry_time=datetime.datetime.now(tz=datetime.timezone.utc),
+        entry_time=datetime.datetime.now(tz=datetime.UTC),
         status="OPEN",
         order_id=1,
         account_type="PAPER",

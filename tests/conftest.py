@@ -9,12 +9,11 @@ unless it explicitly receives a tmp_path fixture.
 from __future__ import annotations
 
 import datetime
-from pathlib import Path
 import types
+from pathlib import Path
 
 import pandas as pd
 import pytest
-
 
 # ── Config fixture ────────────────────────────────────────────────────────────
 
@@ -38,7 +37,7 @@ def mock_cfg(tmp_path):
                 "Financials": "XLF",
             },
         ),
-        sentiment=types.SimpleNamespace(
+        sentiment_params=types.SimpleNamespace(
             sources={
                 "news": {"enabled": True, "provider": "yahoo_finance"},
                 "reddit": {

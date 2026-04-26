@@ -1,16 +1,17 @@
 """Unit tests for algotrader.sentiment.scorer."""
 
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 import pytest
 
 from algotrader.sentiment.scorer import (
-    ScoredItem,
-    MODEL_NONE,
     MODEL_FINBERT,
+    MODEL_NONE,
+    ScoredItem,
     _parse_finbert_output,
+    reset_finbert_singleton,
     score_batch_finbert,
     score_texts,
-    reset_finbert_singleton,
 )
 
 

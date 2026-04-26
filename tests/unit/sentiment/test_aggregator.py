@@ -2,9 +2,8 @@
 
 import pytest
 
-from algotrader.sentiment.aggregator import aggregate_scores, _compute_abn_attention
-from algotrader.sentiment.scorer import ScoredItem, MODEL_FINBERT, MODEL_NONE
-
+from algotrader.sentiment.aggregator import _compute_abn_attention, aggregate_scores
+from algotrader.sentiment.scorer import MODEL_FINBERT, MODEL_NONE, ScoredItem
 
 TICKERS = ["AAPL", "MSFT", "TSLA"]
 

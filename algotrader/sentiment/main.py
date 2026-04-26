@@ -30,17 +30,16 @@ from typing import Any
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.orm import Session
 
+from algotrader.sentiment.aggregator import aggregate_scores
+from algotrader.sentiment.preprocessor import build_ticker_patterns, preprocess_item
+from algotrader.sentiment.residualizer import ResidualizedScore, residualize
+from algotrader.sentiment.scorer import MODEL_NONE, score_texts
+from algotrader.sentiment.utils import raw_news_path, raw_social_path, utc_now, utc_today
 from algotrader.shared.config_loader import get_config
 from algotrader.shared.db import get_session, init_db
 from algotrader.shared.exceptions import SentimentError
 from algotrader.shared.logger import get_logger
 from algotrader.shared.models import SentimentScore, SystemEvent
-
-from algotrader.sentiment.aggregator import aggregate_scores
-from algotrader.sentiment.preprocessor import build_ticker_patterns, preprocess_item
-from algotrader.sentiment.residualizer import residualize, ResidualizedScore
-from algotrader.sentiment.scorer import score_texts, MODEL_NONE
-from algotrader.sentiment.utils import utc_now, utc_today, raw_news_path, raw_social_path
 
 log = get_logger(__name__)
 
@@ -120,8 +119,8 @@ def run(run_id: str) -> None:
     model_failed = False
     scored_items = score_texts(
         texts=texts,
-        primary_model=cfg.sentiment.model,
-        finbert_model_id=cfg.sentiment.finbert_model_id,
+        primary_model=cfg.sentiment_params.model,
+        finbert_model_id=cfg.sentiment_params.finbert_model_id,
         device=cfg.system.gpu_device,
     )
 
@@ -142,7 +141,7 @@ def run(run_id: str) -> None:
                 f"All {non_empty_count} non-empty texts scored as model_used='none'. "
                 "Primary model unavailable; falling back to none."
             ),
-            payload={"model": cfg.sentiment.model, "date": str(today)},
+            payload={"model": cfg.sentiment_params.model, "date": str(today)},
         )
 
     # ------------------------------------------------------------------
@@ -171,7 +170,7 @@ def run(run_id: str) -> None:
         scored_pairs=scored_pairs,
         tickers=tickers,
         history=attention_history,
-        attention_lookback_days=cfg.sentiment.attention_lookback_days,
+        attention_lookback_days=cfg.sentiment_params.attention_lookback_days,
     )
 
     # ------------------------------------------------------------------
@@ -209,7 +208,7 @@ def run(run_id: str) -> None:
         payload={
             "date": str(today),
             "ticker_count": len(final_scores),
-            "model": cfg.sentiment.model,
+            "model": cfg.sentiment_params.model,
             "model_failed": model_failed,
         },
     )

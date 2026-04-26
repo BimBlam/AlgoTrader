@@ -6,8 +6,7 @@ import types
 
 import pandas as pd
 
-from algotrader.signals.regime import classify_regime, _parse_vix
-
+from algotrader.signals.regime import _parse_vix, classify_regime
 
 TODAY = datetime.date(2025, 1, 15)
 

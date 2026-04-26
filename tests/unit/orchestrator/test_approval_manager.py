@@ -4,9 +4,8 @@ from __future__ import annotations
 import uuid
 from unittest.mock import MagicMock
 
-
-from algotrader.shared.constants import ApprovalMode, SignalStatus, SystemMode
 from algotrader.orchestrator.approval_manager import ApprovalManager
+from algotrader.shared.constants import ApprovalMode, SignalStatus, SystemMode
 
 
 def make_signal(sentiment_adj: float = 0.8, status: str = "PENDING"):

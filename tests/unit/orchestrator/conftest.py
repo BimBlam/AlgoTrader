@@ -7,12 +7,11 @@ run without a real database or IBKR connection.
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
 import pytest
-
 
 
 @pytest.fixture()
@@ -75,4 +74,4 @@ def run_id():
 
 @pytest.fixture()
 def utcnow():
-    return datetime.now(tz=timezone.utc)
+    return datetime.now(tz=UTC)

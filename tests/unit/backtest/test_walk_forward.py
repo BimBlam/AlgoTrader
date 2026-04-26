@@ -1,7 +1,9 @@
 """Walk-forward tests."""
 import pandas as pd
-from algotrader.backtest.walk_forward import run_walk_forward, _build_monthly_boundaries
+
 from algotrader.backtest.costs import TransactionCostModel
+from algotrader.backtest.walk_forward import _build_monthly_boundaries, run_walk_forward
+
 
 def test_monthly_boundaries_deduplicates():
     dates = pd.bdate_range("2022-01-01", periods=60).date.tolist()

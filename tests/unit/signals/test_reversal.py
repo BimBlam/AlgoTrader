@@ -9,9 +9,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from algotrader.signals.reversal import compute_reversal_signals
 from algotrader.shared.constants import SignalSide, SignalStrategy
-
+from algotrader.signals.reversal import compute_reversal_signals
 
 TODAY = datetime.date(2025, 1, 15)
 RUN_ID = "test-run-002"

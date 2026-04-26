@@ -6,9 +6,9 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
+from algotrader.execution.reconcile import _last_fill_price, _reconcile
 from algotrader.shared.constants import EventType
 from algotrader.shared.models import Position
-from algotrader.execution.reconcile import _last_fill_price, _reconcile
 
 
 def _open_position(ticker: str, account_type: str = "PAPER") -> Position:
@@ -18,7 +18,7 @@ def _open_position(ticker: str, account_type: str = "PAPER") -> Position:
         side="BUY",
         entry_price=150.0,
         quantity=10,
-        entry_time=datetime.datetime.now(tz=datetime.timezone.utc),
+        entry_time=datetime.datetime.now(tz=datetime.UTC),
         status="OPEN",
         order_id=1,
         account_type=account_type,

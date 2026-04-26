@@ -22,7 +22,7 @@ import os
 import subprocess
 import sys
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from algotrader.shared.logger import get_logger
 
@@ -41,7 +41,7 @@ _JOB_ENTRY_POINTS: dict[str, str] = {
 
 
 def _utcnow() -> datetime:
-    return datetime.now(tz=timezone.utc)
+    return datetime.now(tz=UTC)
 
 
 @dataclass

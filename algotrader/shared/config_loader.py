@@ -13,13 +13,12 @@ import hashlib
 import os
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import yaml
 from pydantic import BaseModel, Field, field_validator
 
 from algotrader.shared.exceptions import ConfigError
-
 
 # ── Pydantic models ───────────────────────────────────────────────────────────
 
@@ -84,8 +83,8 @@ class RiskConfig(BaseModel):
 class UniverseConfig(BaseModel):
     min_market_cap_usd: float
     min_avg_daily_volume: float
-    sector_etf_map: Dict[str, str]
-    tickers: List[str] = Field(default_factory=list)
+    sector_etf_map: dict[str, str]
+    tickers: list[str] = Field(default_factory=list)
 
 
 class StatArbParams(BaseModel):
@@ -124,7 +123,7 @@ class StrategyParamsConfig(BaseModel):
 
 class RedditSource(BaseModel):
     enabled: bool
-    subreddits: List[str] = Field(default_factory=list)
+    subreddits: list[str] = Field(default_factory=list)
 
 
 class TwitterSource(BaseModel):
@@ -177,10 +176,10 @@ class AppConfig(BaseModel):
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 _DEFAULT_CONFIG_DIR = Path("config")
-_cache: Optional[AppConfig] = None
+_cache: AppConfig | None = None
 
 
-def _load_yaml(path: Path) -> Dict[str, Any]:
+def _load_yaml(path: Path) -> dict[str, Any]:
     """Read and parse a YAML file; raise ConfigError on any failure."""
     if not path.exists():
         raise ConfigError(f"Required config file not found: {path}")

@@ -2,14 +2,12 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
 import pytest
 
-from algotrader.shared.constants import JobStatus
-from algotrader.shared.exceptions import DataError
 from algotrader.orchestrator.job_manager import (
     _EXPECTED_DURATION_MINUTES,
     create_job,
@@ -18,6 +16,8 @@ from algotrader.orchestrator.job_manager import (
     mark_job_failed,
     mark_job_started,
 )
+from algotrader.shared.constants import JobStatus
+from algotrader.shared.exceptions import DataError
 
 
 @pytest.fixture()
@@ -39,7 +39,7 @@ def make_job(job_type="INGEST_EOD", status=JobStatus.RUNNING.value, started_offs
     job.run_id = str(uuid.uuid4())
     job.job_type = job_type
     job.status = status
-    job.started_at = datetime.now(tz=timezone.utc) + timedelta(minutes=started_offset_minutes)
+    job.started_at = datetime.now(tz=UTC) + timedelta(minutes=started_offset_minutes)
     job.retry_count = 0
     return job
 

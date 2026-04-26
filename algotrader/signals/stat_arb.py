@@ -12,7 +12,7 @@ signal reduces or kills the signal (and vice versa for SHORT).
 import datetime
 from dataclasses import dataclass, field
 
-from algotrader.shared.constants import SignalStrategy, SignalSide
+from algotrader.shared.constants import SignalSide, SignalStrategy
 from algotrader.shared.logger import get_logger
 from algotrader.signals.ou_model import OUResult
 from algotrader.signals.sentiment_adj import compute_directional_sentiment_adj

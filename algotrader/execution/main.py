@@ -32,7 +32,7 @@ from __future__ import annotations
 
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from algotrader.shared.config_loader import get_config
 from algotrader.shared.constants import EventType, Severity, SignalStatus
@@ -89,7 +89,7 @@ def run(run_id: str) -> None:
 
 
 def _execute(run_id: str, account_type: str, cfg, ibkr: IBKRClient) -> None:
-    today = datetime.now(tz=timezone.utc).date()
+    today = datetime.now(tz=UTC).date()
 
     with get_session() as session:
         # Guard 1: daily loss — halts the entire batch if breached.

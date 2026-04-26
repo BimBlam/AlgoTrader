@@ -31,21 +31,7 @@ import signal as _signal
 import threading
 import time
 import uuid
-from datetime import datetime, timezone
-
-from algotrader.shared.config_loader import get_config
-from algotrader.shared.constants import (
-    ApprovalMode,
-    EventType,
-    Severity,
-    SignalStatus,
-    SystemMode,
-    SystemState,
-)
-from algotrader.shared.db import get_session, init_db
-from algotrader.shared.exceptions import ConfigError
-from algotrader.shared.logger import get_logger
-from algotrader.shared.models import Signal, SystemEvent
+from datetime import UTC, datetime
 
 from algotrader.orchestrator.approval_manager import ApprovalManager
 from algotrader.orchestrator.event_handler import EventHandler
@@ -60,12 +46,25 @@ from algotrader.orchestrator.process_manager import ProcessManager
 from algotrader.orchestrator.scheduler import JobScheduler
 from algotrader.orchestrator.state_machine import StateMachine
 from algotrader.orchestrator.watchdog import Watchdog
+from algotrader.shared.config_loader import get_config
+from algotrader.shared.constants import (
+    ApprovalMode,
+    EventType,
+    Severity,
+    SignalStatus,
+    SystemMode,
+    SystemState,
+)
+from algotrader.shared.db import get_session, init_db
+from algotrader.shared.exceptions import ConfigError
+from algotrader.shared.logger import get_logger
+from algotrader.shared.models import Signal, SystemEvent
 
 log = get_logger(__name__)
 
 
 def _utcnow() -> datetime:
-    return datetime.now(tz=timezone.utc)
+    return datetime.now(tz=UTC)
 
 
 _MAIN_LOOP_SLEEP = 5
@@ -127,7 +126,7 @@ class Orchestrator:
         self._approval_mode = ApprovalMode(cfg.system.approval_mode)
 
         try:
-            self._soft_threshold = float(cfg.sentiment.sentiment_threshold_positive)
+            self._soft_threshold = float(cfg.sentiment_params.sentiment_threshold_positive)
         except AttributeError:
             self._soft_threshold = 0.5
 

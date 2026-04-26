@@ -5,8 +5,9 @@ SQLAlchemy 2.0 session factory and connection-pool management.
 Every module that touches the database calls get_session() to obtain
 a context-managed session; it never constructs an engine directly.
 """
+from collections.abc import Generator
 from contextlib import contextmanager
-from typing import Any, Generator, Optional
+from typing import Any
 
 from sqlalchemy import create_engine, event, text
 from sqlalchemy.engine import Engine
@@ -15,8 +16,8 @@ from sqlalchemy.pool import QueuePool
 
 from algotrader.shared.exceptions import ConfigError, DataError
 
-_engine: Optional[Engine] = None
-_SessionLocal: Optional[sessionmaker[Session]] = None
+_engine: Engine | None = None
+_SessionLocal: sessionmaker[Session] | None = None
 
 
 def _build_engine(db_url: str) -> Engine:

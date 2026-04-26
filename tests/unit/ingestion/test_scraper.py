@@ -93,12 +93,12 @@ class TestUnixToDate:
 
 class TestScrapeNews:
     def test_disabled_returns_path_without_writing(self, mock_cfg, today):
-        mock_cfg.sentiment.sources["news"]["enabled"] = False
+        mock_cfg.sentiment_params.sources["news"]["enabled"] = False
         path = scrape_news(["AAPL"], mock_cfg, today)
         assert not path.exists()
 
     def test_writes_news_json_when_enabled(self, mock_cfg, today):
-        mock_cfg.sentiment.sources["news"]["enabled"] = True
+        mock_cfg.sentiment_params.sources["news"]["enabled"] = True
         fake_news = [{"title": "AAPL soars", "link": "http://x.com", "publisher": "Test",
                       "providerPublishTime": 1710460800}]
 
@@ -112,7 +112,7 @@ class TestScrapeNews:
         assert data[0]["ticker"] == "AAPL"
 
     def test_idempotent_second_call_does_not_duplicate(self, mock_cfg, today):
-        mock_cfg.sentiment.sources["news"]["enabled"] = True
+        mock_cfg.sentiment_params.sources["news"]["enabled"] = True
         fake_news = [{"title": "AAPL soars", "link": "http://x.com/a",
                       "publisher": "Test", "providerPublishTime": 1710460800}]
 
@@ -127,11 +127,11 @@ class TestScrapeNews:
 
 class TestScrapeSOcial:
     def test_twitter_enabled_raises_not_implemented(self, mock_cfg, today):
-        mock_cfg.sentiment.sources["twitter"]["enabled"] = True
+        mock_cfg.sentiment_params.sources["twitter"]["enabled"] = True
         with pytest.raises(NotImplementedError):
             scrape_social(["AAPL"], mock_cfg, today)
 
     def test_reddit_disabled_returns_path_without_writing(self, mock_cfg, today):
-        mock_cfg.sentiment.sources["reddit"]["enabled"] = False
+        mock_cfg.sentiment_params.sources["reddit"]["enabled"] = False
         path = scrape_social(["AAPL"], mock_cfg, today)
         assert not path.exists()

@@ -1,8 +1,9 @@
 """Unit tests for algotrader.sentiment.residualizer."""
 
 import pytest
-from algotrader.sentiment.residualizer import residualize, _compute_residual
+
 from algotrader.sentiment.aggregator import TickerAggregate
+from algotrader.sentiment.residualizer import _compute_residual, residualize
 from algotrader.sentiment.scorer import MODEL_FINBERT, MODEL_NONE
 
 

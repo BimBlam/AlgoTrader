@@ -5,22 +5,22 @@ All system-wide enumerations. Import from here; never define enums elsewhere.
 String values match the TEXT columns stored in PostgreSQL exactly so comparisons
 are a simple equality check with no transformation.
 """
-from enum import Enum
+from enum import StrEnum
 
 
-class SystemMode(str, Enum):
+class SystemMode(StrEnum):
     DISABLED = "DISABLED"
     PAPER    = "PAPER"
     LIVE     = "LIVE"
     BOTH     = "BOTH"
 
 
-class ApprovalMode(str, Enum):
+class ApprovalMode(StrEnum):
     HARD = "HARD"
     SOFT = "SOFT"
 
 
-class SystemState(str, Enum):
+class SystemState(StrEnum):
     DISABLED           = "DISABLED"
     STARTING           = "STARTING"
     IDLE               = "IDLE"
@@ -35,23 +35,23 @@ class SystemState(str, Enum):
     HALT               = "HALT"
 
 
-class SignalStrategy(str, Enum):
+class SignalStrategy(StrEnum):
     STAT_ARB     = "STAT_ARB"
     REVERSAL     = "REVERSAL"
     REGIME_COMBO = "REGIME_COMBO"
 
 
-class SignalSide(str, Enum):
+class SignalSide(StrEnum):
     LONG  = "LONG"
     SHORT = "SHORT"
 
 
-class OrderType(str, Enum):
+class OrderType(StrEnum):
     LIMIT  = "LIMIT"
     MARKET = "MARKET"
 
 
-class OrderStatus(str, Enum):
+class OrderStatus(StrEnum):
     PENDING   = "PENDING"
     SUBMITTED = "SUBMITTED"
     FILLED    = "FILLED"
@@ -59,12 +59,12 @@ class OrderStatus(str, Enum):
     REJECTED  = "REJECTED"
 
 
-class PositionStatus(str, Enum):
+class PositionStatus(StrEnum):
     OPEN   = "OPEN"
     CLOSED = "CLOSED"
 
 
-class JobStatus(str, Enum):
+class JobStatus(StrEnum):
     PENDING          = "PENDING"
     RUNNING          = "RUNNING"
     DONE             = "DONE"
@@ -72,7 +72,7 @@ class JobStatus(str, Enum):
     RETRYABLE_FAILED = "RETRYABLE_FAILED"
 
 
-class SignalStatus(str, Enum):
+class SignalStatus(StrEnum):
     PENDING  = "PENDING"
     APPROVED = "APPROVED"
     DENIED   = "DENIED"
@@ -80,14 +80,14 @@ class SignalStatus(str, Enum):
     EXPIRED  = "EXPIRED"
 
 
-class Severity(str, Enum):
+class Severity(StrEnum):
     INFO     = "INFO"
     WARNING  = "WARNING"
     ERROR    = "ERROR"
     CRITICAL = "CRITICAL"
 
 
-class EventType(str, Enum):
+class EventType(StrEnum):
     STARTUP          = "STARTUP"
     SHUTDOWN         = "SHUTDOWN"
     JOB_STARTED      = "JOB_STARTED"

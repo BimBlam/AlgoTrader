@@ -15,11 +15,10 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from algotrader.sentiment.main import (
-    _load_json_file,
     _load_attention_history,
+    _load_json_file,
     _load_sentiment_history,
 )
-
 
 # ---------------------------------------------------------------------------
 # _load_json_file
@@ -202,8 +201,8 @@ class TestRun:
             patch("algotrader.sentiment.main.init_db"),
             patch("algotrader.sentiment.main.get_session", return_value=mock_session),
         ):
-            from algotrader.shared.exceptions import SentimentError
             from algotrader.sentiment.main import run
+            from algotrader.shared.exceptions import SentimentError
             with pytest.raises(SentimentError):
                 run("test-run-id-002")
 

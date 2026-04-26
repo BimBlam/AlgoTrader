@@ -18,7 +18,6 @@ import pytest
 
 from algotrader.signals.ou_model import OUResult
 
-
 # ── Strategy config helpers ──────────────────────────────────────────────────
 
 def _make_strategy_cfg(

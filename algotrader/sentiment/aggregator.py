@@ -18,7 +18,7 @@ from dataclasses import dataclass
 
 import structlog
 
-from algotrader.sentiment.scorer import ScoredItem, MODEL_NONE
+from algotrader.sentiment.scorer import MODEL_NONE, ScoredItem
 
 log = structlog.get_logger(__name__)
 

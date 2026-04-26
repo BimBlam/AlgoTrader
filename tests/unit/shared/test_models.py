@@ -1,21 +1,25 @@
 """Unit tests for shared/models.py — schema correctness without a live DB."""
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import sessionmaker
 
 from algotrader.shared.models import (
-    Base, Job, OUParam, Signal, SystemEvent,
+    Base,
+    Job,
+    OUParam,
+    Signal,
+    SystemEvent,
 )
 
 
 @pytest.fixture(scope="module")
 def sqlite_session():
     """In-memory SQLite engine — patches JSONB → JSON for dialect compatibility."""
-    from sqlalchemy.dialects.postgresql import JSONB
     from sqlalchemy import JSON
+    from sqlalchemy.dialects.postgresql import JSONB
 
     # Remap JSONB to JSON before DDL runs; JSONB is Postgres-only
     for table in Base.metadata.tables.values():
@@ -35,7 +39,7 @@ def sqlite_session():
     engine.dispose()
 
 def _utc_now():
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 def test_all_tables_created(sqlite_session):
@@ -105,6 +109,7 @@ def test_system_event_no_fk_constraint(sqlite_session):
 def test_ou_param_unique_constraint(sqlite_session):
     """Duplicate (date, ticker) must raise IntegrityError."""
     import datetime
+
     from sqlalchemy.exc import IntegrityError
 
     run_id = uuid.uuid4()

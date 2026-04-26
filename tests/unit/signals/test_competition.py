@@ -4,11 +4,9 @@ Unit tests for competition.py — per-ticker signal resolution.
 import datetime
 import types
 
-
+from algotrader.shared.constants import SignalSide, SignalStrategy
+from algotrader.signals.competition import _pick_winner, resolve_competition
 from algotrader.signals.stat_arb import SignalCandidate
-from algotrader.signals.competition import resolve_competition, _pick_winner
-from algotrader.shared.constants import SignalStrategy, SignalSide
-
 
 TODAY = datetime.date(2025, 1, 15)
 RUN_ID = "test-run-003"

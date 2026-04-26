@@ -16,17 +16,16 @@ from __future__ import annotations
 import datetime
 import sys
 
-from algotrader.shared.config_loader import get_config
-from algotrader.shared.db import get_session, init_db
-from algotrader.shared.logger import get_logger
-from algotrader.shared.constants import EventType, Severity
-from algotrader.shared.exceptions import DataError
-from algotrader.shared.models import SystemEvent
-
 from algotrader.ingestion.downloader import download_and_persist_ohlcv
-from algotrader.ingestion.validator import validate_ohlcv
 from algotrader.ingestion.returns import compute_and_write_returns
 from algotrader.ingestion.scraper import scrape_news, scrape_social
+from algotrader.ingestion.validator import validate_ohlcv
+from algotrader.shared.config_loader import get_config
+from algotrader.shared.constants import EventType, Severity
+from algotrader.shared.db import get_session, init_db
+from algotrader.shared.exceptions import DataError
+from algotrader.shared.logger import get_logger
+from algotrader.shared.models import SystemEvent
 
 log = get_logger(__name__)
 
@@ -52,7 +51,7 @@ def run(run_id: str) -> None:
     init_db(cfg.system.db_url)
 
     logger = log.bind(run_id=run_id)
-    today: datetime.date = datetime.datetime.now(datetime.timezone.utc).date()
+    today: datetime.date = datetime.datetime.now(datetime.UTC).date()
     tickers: list[str] = [t.upper() for t in cfg.universe.tickers]
 
     if not tickers:
@@ -195,7 +194,7 @@ def _emit_event(
     try:
         with get_session() as session:
             event = SystemEvent(
-                timestamp=datetime.datetime.now(datetime.timezone.utc),
+                timestamp=datetime.datetime.now(datetime.UTC),
                 event_type=event_type.value,
                 severity=severity.value,
                 subsystem="S2",

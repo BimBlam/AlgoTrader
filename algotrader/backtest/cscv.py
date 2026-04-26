@@ -12,7 +12,6 @@ from __future__ import annotations
 
 import math
 from itertools import combinations
-from typing import List
 
 import numpy as np
 
@@ -21,7 +20,7 @@ from algotrader.shared.logger import get_logger
 log = get_logger(__name__)
 
 
-def compute_cscv_pbo(sharpe_variants: List[float]) -> float:
+def compute_cscv_pbo(sharpe_variants: list[float]) -> float:
     """
     Compute the Probability of Backtest Overfitting (PBO) via CSCV.
 

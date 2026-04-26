@@ -10,9 +10,9 @@ import pandas as pd
 import pytest
 
 from algotrader.ingestion.downloader import (
-    _normalise,
     _determine_fetch_start,
     _load_existing,
+    _normalise,
     download_and_persist_ohlcv,
 )
 from algotrader.shared.exceptions import DataError
@@ -85,9 +85,8 @@ class TestLoadExisting:
 
 class TestDownloadAndPersist:
     def test_raises_data_error_on_empty_yfinance_response(self, mock_cfg, today):
-        with patch("yfinance.download", return_value=pd.DataFrame()):
-            with pytest.raises(DataError, match="no data"):
-                download_and_persist_ohlcv("AAPL", mock_cfg, today)
+        with patch("yfinance.download", return_value=pd.DataFrame()), pytest.raises(DataError, match="no data"):
+            download_and_persist_ohlcv("AAPL", mock_cfg, today)
 
     def test_appends_new_rows_without_duplicate(self, mock_cfg, make_ohlcv_df, today):
         ohlcv_dir = Path(mock_cfg.system.data_dir_ssd) / "processed" / "ohlcv"

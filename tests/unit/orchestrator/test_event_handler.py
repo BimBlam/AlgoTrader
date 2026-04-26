@@ -1,12 +1,11 @@
 """Tests for algotrader.orchestrator.event_handler."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from unittest.mock import MagicMock, patch
 
-
-from algotrader.shared.constants import ApprovalMode, SystemMode
 from algotrader.orchestrator.event_handler import EventHandler
+from algotrader.shared.constants import ApprovalMode, SystemMode
 
 
 def make_session(events=None):
@@ -36,7 +35,7 @@ class TestModeChangedHandling:
 
         event = MagicMock()
         event.event_type = "MODE_CHANGED"
-        event.timestamp = datetime.now(tz=timezone.utc)
+        event.timestamp = datetime.now(tz=UTC)
         session = make_session(events=[event])
 
         mock_cfg = MagicMock()
@@ -61,7 +60,7 @@ class TestModeChangedHandling:
     def test_invalidate_cache_called_on_mode_change(self):
         event = MagicMock()
         event.event_type = "MODE_CHANGED"
-        event.timestamp = datetime.now(tz=timezone.utc)
+        event.timestamp = datetime.now(tz=UTC)
         session = make_session(events=[event])
 
         mock_cfg = MagicMock()
@@ -90,7 +89,7 @@ class TestConfigChangedHandling:
 
         event = MagicMock()
         event.event_type = "CONFIG_CHANGED"
-        event.timestamp = datetime.now(tz=timezone.utc)
+        event.timestamp = datetime.now(tz=UTC)
         session = make_session(events=[event])
 
         with patch("algotrader.orchestrator.event_handler.get_session", return_value=session), \
@@ -107,7 +106,7 @@ class TestConfigChangedHandling:
     def test_invalidate_cache_called_on_config_change(self):
         event = MagicMock()
         event.event_type = "CONFIG_CHANGED"
-        event.timestamp = datetime.now(tz=timezone.utc)
+        event.timestamp = datetime.now(tz=UTC)
         session = make_session(events=[event])
 
         with patch("algotrader.orchestrator.event_handler.get_session", return_value=session), \
@@ -140,8 +139,8 @@ class TestNoEvents:
 
 class TestWatermarkAdvances:
     def test_watermark_moves_to_latest_event_timestamp(self):
-        t1 = datetime(2026, 1, 1, 10, 0, 0, tzinfo=timezone.utc)
-        t2 = datetime(2026, 1, 1, 10, 5, 0, tzinfo=timezone.utc)
+        t1 = datetime(2026, 1, 1, 10, 0, 0, tzinfo=UTC)
+        t2 = datetime(2026, 1, 1, 10, 5, 0, tzinfo=UTC)
 
         e1 = MagicMock()
         e1.event_type = "CONFIG_CHANGED"
@@ -170,7 +169,7 @@ class TestUserHaltHandling:
 
         event = MagicMock()
         event.event_type = "USER_HALT"
-        event.timestamp = datetime.now(tz=timezone.utc)
+        event.timestamp = datetime.now(tz=UTC)
         session = make_session(events=[event])
 
         with patch("algotrader.orchestrator.event_handler.get_session", return_value=session):
@@ -188,7 +187,7 @@ class TestUserHaltHandling:
     def test_user_halt_with_no_callback_does_not_raise(self):
         event = MagicMock()
         event.event_type = "USER_HALT"
-        event.timestamp = datetime.now(tz=timezone.utc)
+        event.timestamp = datetime.now(tz=UTC)
         session = make_session(events=[event])
 
         with patch("algotrader.orchestrator.event_handler.get_session", return_value=session):
@@ -207,7 +206,7 @@ class TestUserResumeHandling:
 
         event = MagicMock()
         event.event_type = "USER_RESUME"
-        event.timestamp = datetime.now(tz=timezone.utc)
+        event.timestamp = datetime.now(tz=UTC)
         session = make_session(events=[event])
 
         with patch("algotrader.orchestrator.event_handler.get_session", return_value=session):
@@ -224,7 +223,7 @@ class TestUserResumeHandling:
     def test_user_resume_with_no_callback_does_not_raise(self):
         event = MagicMock()
         event.event_type = "USER_RESUME"
-        event.timestamp = datetime.now(tz=timezone.utc)
+        event.timestamp = datetime.now(tz=UTC)
         session = make_session(events=[event])
 
         with patch("algotrader.orchestrator.event_handler.get_session", return_value=session):
@@ -237,8 +236,8 @@ class TestUserResumeHandling:
             handler._poll()  # must not raise
 
     def test_watermark_advances_for_halt_and_resume_events(self):
-        t1 = datetime(2026, 1, 1, 10, 0, 0, tzinfo=timezone.utc)
-        t2 = datetime(2026, 1, 1, 10, 5, 0, tzinfo=timezone.utc)
+        t1 = datetime(2026, 1, 1, 10, 0, 0, tzinfo=UTC)
+        t2 = datetime(2026, 1, 1, 10, 5, 0, tzinfo=UTC)
 
         e1 = MagicMock()
         e1.event_type = "USER_HALT"
@@ -268,10 +267,10 @@ class TestAllFourEventsInOnePoll:
 
         events = []
         for et, ts in [
-            ("CONFIG_CHANGED", datetime(2026, 1, 1, 10, 0, tzinfo=timezone.utc)),
-            ("USER_HALT",      datetime(2026, 1, 1, 10, 1, tzinfo=timezone.utc)),
-            ("USER_RESUME",    datetime(2026, 1, 1, 10, 2, tzinfo=timezone.utc)),
-            ("MODE_CHANGED",   datetime(2026, 1, 1, 10, 3, tzinfo=timezone.utc)),
+            ("CONFIG_CHANGED", datetime(2026, 1, 1, 10, 0, tzinfo=UTC)),
+            ("USER_HALT",      datetime(2026, 1, 1, 10, 1, tzinfo=UTC)),
+            ("USER_RESUME",    datetime(2026, 1, 1, 10, 2, tzinfo=UTC)),
+            ("MODE_CHANGED",   datetime(2026, 1, 1, 10, 3, tzinfo=UTC)),
         ]:
             e = MagicMock()
             e.event_type = et

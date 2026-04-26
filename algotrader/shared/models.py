@@ -12,8 +12,15 @@ must always pass UTC-aware datetimes — enforcement happens at the DB layer.
 import uuid
 
 from sqlalchemy import (
-    Boolean, Column, Date, DateTime, Float, ForeignKey,
-    Integer, Text, UniqueConstraint,
+    Boolean,
+    Column,
+    Date,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    Text,
+    UniqueConstraint,
 )
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import DeclarativeBase, relationship

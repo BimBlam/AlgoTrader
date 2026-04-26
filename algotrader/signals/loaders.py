@@ -8,8 +8,8 @@ import datetime
 import pathlib
 
 import pandas as pd
-from sqlalchemy.orm import Session
 from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 from algotrader.shared.exceptions import DataError
 from algotrader.shared.logger import get_logger

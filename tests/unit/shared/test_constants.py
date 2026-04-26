@@ -1,8 +1,13 @@
 """Unit tests for shared/constants.py."""
 from algotrader.shared.constants import (
-    ApprovalMode, EventType, JobStatus, OrderType,
-    Severity, SignalStrategy,
-    SystemMode, SystemState,
+    ApprovalMode,
+    EventType,
+    JobStatus,
+    OrderType,
+    Severity,
+    SignalStrategy,
+    SystemMode,
+    SystemState,
 )
 
 

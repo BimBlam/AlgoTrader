@@ -9,8 +9,8 @@ import pandas as pd
 
 from algotrader.signals.ou_model import (
     OUResult,
-    _ols_residuals,
     _fit_single,
+    _ols_residuals,
     fit_ou_params,
 )
 

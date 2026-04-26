@@ -15,7 +15,6 @@ import pandas as pd
 import pytest
 
 
-
 def _write_returns_parquet(path: Path, n_dates: int = 10,
                            n_tickers: int = 5) -> pd.DataFrame:
     """Write a minimal valid returns parquet to `path`; return the DataFrame."""

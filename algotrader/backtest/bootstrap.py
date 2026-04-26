@@ -11,15 +11,14 @@ Changes from audit:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List
 
 import numpy as np
 import pandas as pd
 
-from algotrader.shared.logger import get_logger
-from algotrader.backtest.strategy_sim import simulate_strategy
-from algotrader.backtest.metrics import sharpe_ratio
 from algotrader.backtest.costs import TransactionCostModel
+from algotrader.backtest.metrics import sharpe_ratio
+from algotrader.backtest.strategy_sim import simulate_strategy
+from algotrader.shared.logger import get_logger
 
 log = get_logger(__name__)
 
@@ -28,7 +27,7 @@ _STATIONARY_BOOTSTRAP_BLOCK_MEAN = 10
 
 @dataclass
 class BootstrapResult:
-    block_sharpes: List[float]
+    block_sharpes: list[float]
 
 
 def run_stationary_bootstrap(
@@ -115,7 +114,7 @@ def _rebuild_df_with_resampled_dates(
     so the resulting index is monotone (required by simulate_strategy).
     """
     frames = []
-    for new_date, src_date in zip(original_dates, resampled_dates):
+    for new_date, src_date in zip(original_dates, resampled_dates, strict=True):
         try:
             day_data = returns_df.xs(src_date, level="date").copy()
         except KeyError:

@@ -1,6 +1,7 @@
 """CSCV PBO tests."""
 from algotrader.backtest.cscv import compute_cscv_pbo
 
+
 def test_pbo_in_range():
     pbo = compute_cscv_pbo([0.5, 1.2, -0.3, 0.8, 1.5, -0.1, 0.9, 0.4])
     assert 0.0 <= pbo <= 1.0

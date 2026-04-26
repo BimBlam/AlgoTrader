@@ -1,6 +1,6 @@
 """Permutation battery tests."""
-from algotrader.backtest.permutation import run_permutation_battery
 from algotrader.backtest.costs import TransactionCostModel
+from algotrader.backtest.permutation import run_permutation_battery
 
 _EXPECTED_TESTS = {
     "circular_shift", "sign_flip", "jitter",
@@ -12,7 +12,7 @@ def test_all_test_names_present(mock_cfg, make_returns_df):
     mock_cfg.backtest.n_permutations = 5
     df = make_returns_df(300, 20)
     result = run_permutation_battery(df, mock_cfg, TransactionCostModel(mock_cfg))
-    assert _EXPECTED_TESTS == set(result.p_values.keys())
+    assert set(result.p_values.keys()) == _EXPECTED_TESTS
 
 
 def test_p_values_in_range(mock_cfg, make_returns_df):

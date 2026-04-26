@@ -4,7 +4,6 @@ Unit tests for sentiment_adj.py — Layer 4 confidence multiplier.
 import types
 from unittest.mock import patch
 
-
 from algotrader.signals.sentiment_adj import compute_directional_sentiment_adj
 
 

@@ -12,8 +12,8 @@ from __future__ import annotations
 
 import pandas as pd
 
-from algotrader.shared.logger import get_logger
 from algotrader.backtest.costs import TransactionCostModel
+from algotrader.shared.logger import get_logger
 
 log = get_logger(__name__)
 
@@ -94,7 +94,7 @@ def simulate_strategy(
         if not daily_returns:
             return None
 
-        dates, rets = zip(*daily_returns)
+        dates, rets = zip(*daily_returns, strict=True)
         return pd.Series(rets, index=pd.Index(dates, name="date"), dtype=float)
 
     except Exception as exc:

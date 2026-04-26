@@ -1,8 +1,10 @@
 """Stationary bootstrap tests."""
 import numpy as np
 import pandas as pd
+
 from algotrader.backtest.bootstrap import (
-    run_stationary_bootstrap, _stationary_bootstrap_dates,
+    _stationary_bootstrap_dates,
+    run_stationary_bootstrap,
 )
 from algotrader.backtest.costs import TransactionCostModel
 
@@ -25,6 +27,7 @@ def test_bootstrap_produces_list(mock_cfg, make_returns_df):
 def test_bootstrap_no_dead_code_date_to_idx(mock_cfg, make_returns_df):
     """Ensure _rebuild_df_with_resampled_dates has no references to date_to_idx."""
     import inspect
+
     from algotrader.backtest.bootstrap import _rebuild_df_with_resampled_dates
     src = inspect.getsource(_rebuild_df_with_resampled_dates)
     assert "date_to_idx" not in src, "Dead variable date_to_idx was not removed"

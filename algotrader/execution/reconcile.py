@@ -22,7 +22,7 @@ from __future__ import annotations
 
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from algotrader.shared.config_loader import get_config
 from algotrader.shared.constants import EventType, PositionStatus, Severity
@@ -69,7 +69,7 @@ def _reconcile(run_id: str, account_type: str, ibkr: IBKRClient) -> None:
     ibkr_positions = ibkr._ib.positions()
     ibkr_tickers = {p.contract.symbol for p in ibkr_positions}
 
-    today_iso = datetime.now(tz=timezone.utc).date().isoformat()
+    today_iso = datetime.now(tz=UTC).date().isoformat()
 
     with get_session() as session:
         open_db_positions = (
@@ -86,7 +86,7 @@ def _reconcile(run_id: str, account_type: str, ibkr: IBKRClient) -> None:
             if pos.ticker not in ibkr_tickers:
                 # Position no longer held — close it in the DB
                 exit_price = _last_fill_price(ibkr, pos.ticker) or pos.entry_price
-                exit_time = datetime.now(tz=timezone.utc)
+                exit_time = datetime.now(tz=UTC)
 
                 close_position(session, pos, exit_price, exit_time)
                 write_event(

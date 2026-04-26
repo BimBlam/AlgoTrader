@@ -16,7 +16,6 @@ adjustment (Layer 4) — replacing the raw adj with the directional one.
 """
 import math
 from collections import defaultdict
-from typing import Optional
 
 from algotrader.shared.constants import SignalStrategy
 from algotrader.shared.logger import get_logger
@@ -65,7 +64,7 @@ def resolve_competition(
         bucket[c.ticker].append(c)
 
     winners: list[SignalCandidate] = []
-    for ticker, group in bucket.items():
+    for _ticker, group in bucket.items():
         winner = _pick_winner(group)
         if winner is not None:
             winners.append(winner)
@@ -82,7 +81,7 @@ def resolve_competition(
     return winners
 
 
-def _pick_winner(group: list[SignalCandidate]) -> Optional[SignalCandidate]:
+def _pick_winner(group: list[SignalCandidate]) -> SignalCandidate | None:
     """
     From candidates for the same ticker, select the one with the
     highest combined_score; break ties by strategy priority.

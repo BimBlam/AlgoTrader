@@ -2,11 +2,17 @@
 algotrader.backtest/config_schema.py
 
 Pydantic v2 schema for the [backtest] section of strategy_params.yaml.
-Validated at process start via get_config(); all defaults match spec contract.
+Validated at process start via get_backtest_config() which should be
+called once at the top of main.run() before any simulation work begins.
 """
 
 from __future__ import annotations
-from pydantic import BaseModel, Field, model_validator
+
+from typing import Any
+
+from pydantic import BaseModel, Field, ValidationError, field_validator, model_validator
+
+from algotrader.shared.exceptions import BacktestError
 
 
 class BacktestConfig(BaseModel):
@@ -16,48 +22,58 @@ class BacktestConfig(BaseModel):
     hardcoded in business logic — callers always read from this object.
     """
 
-    is_window_months: int = Field(
-        default=12,
-        ge=3,
-        description="In-sample window length in calendar months.",
-    )
-    n_mc_paths: int = Field(
-        default=1000,
-        ge=100,
-        description="Number of GARCH Monte Carlo paths to generate.",
-    )
-    n_bootstrap_paths: int = Field(
-        default=500,
-        ge=50,
-        description="Number of stationary bootstrap replications.",
-    )
-    bootstrap_block_mean: int = Field(
-        default=10,
-        ge=2,
-        description="Average block length (days) for stationary bootstrap.",
-    )
-    n_permutations: int = Field(
-        default=200,
-        ge=50,
-        description="Number of permutations per test in the battery.",
-    )
-    slippage_rate: float = Field(
-        default=0.0015,
-        ge=0.0,
-        le=0.05,
-        description="One-way slippage as a fraction of trade value (0.15% default).",
-    )
-    include_costs: bool = Field(
-        default=True,
-        description="Whether to apply transaction costs in simulations.",
-    )
-    random_seed: int = Field(
-        default=42,
-        description="Base seed for all RNG operations; ensures reproducibility.",
-    )
+    model_config = {"frozen": True, "extra": "ignore"}
+
+    # Walk-forward window
+    is_window_months: int = Field(default=12, ge=3)
+    oos_window_months: int = Field(default=1, ge=1)
+    # Monte Carlo
+    n_mc_paths: int = Field(default=1000, ge=100)
+    random_seed: int = Field(default=42)
+    # Stationary bootstrap
+    n_bootstrap_paths: int = Field(default=500, ge=10)
+    bootstrap_block_mean: int = Field(default=10, ge=2)
+    # Permutation battery
+    n_permutations: int = Field(default=200, ge=20)
+    # Transaction costs
+    slippage_rate: float = Field(default=0.0015, ge=0.0, le=0.05)
+    include_costs: bool = Field(default=True)
+
+    @field_validator("bootstrap_block_mean")
+    @classmethod
+    def block_mean_less_than_window(cls, v: int) -> int:
+        if v > 63:
+            raise ValueError(f"bootstrap_block_mean={v} exceeds 63 trading days")
+        return v
 
     @model_validator(mode="after")
-    def validate_windows(self) -> "BacktestConfig":
-        if self.is_window_months < 3:
-            raise ValueError("is_window_months must be at least 3.")
+    def oos_shorter_than_is(self) -> BacktestConfig:
+        if self.oos_window_months >= self.is_window_months:
+            raise ValueError(
+                f"oos_window_months ({self.oos_window_months}) must be "
+                f"shorter than is_window_months ({self.is_window_months})."
+            )
         return self
+
+
+def get_backtest_config(cfg: Any) -> BacktestConfig:
+    """Extract and validate the [backtest] config section.
+
+    Accepts the full AppConfig and plucks out the ``backtest`` attribute.
+    Returns defaults for missing or malformed sections after logging.
+    """
+    raw = getattr(cfg, "backtest", None)
+    if raw is None:
+        return BacktestConfig()
+
+    if isinstance(raw, dict):
+        data = raw
+    elif hasattr(raw, "__dict__"):
+        data = {k: v for k, v in vars(raw).items() if not k.startswith("_")}
+    else:
+        data = {}
+
+    try:
+        return BacktestConfig(**data)
+    except ValidationError as exc:
+        raise BacktestError(f"Invalid backtest configuration: {exc}") from exc

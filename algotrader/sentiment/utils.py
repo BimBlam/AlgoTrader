@@ -23,7 +23,7 @@ _WHITESPACE_RE = re.compile(r"\s{2,}")
 
 def utc_now() -> datetime.datetime:
     """Return the current UTC timestamp as a timezone-aware datetime."""
-    return datetime.datetime.now(datetime.timezone.utc)
+    return datetime.datetime.now(datetime.UTC)
 
 
 def utc_today() -> datetime.date:

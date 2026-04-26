@@ -8,17 +8,17 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
+from algotrader.execution import main as s6_main
 from algotrader.shared.constants import EventType
 from algotrader.shared.exceptions import DataError, ExecutionError, RiskBreach
 from algotrader.shared.models import Signal
-from algotrader.execution import main as s6_main
 
 
 def _make_approved_signal(ticker: str = "AAPL") -> Signal:
     return Signal(
         id=1,
         run_id=uuid.uuid4(),
-        created_at=datetime.datetime.now(tz=datetime.timezone.utc),
+        created_at=datetime.datetime.now(tz=datetime.UTC),
         ticker=ticker,
         strategy="STAT_ARB",
         side="LONG",

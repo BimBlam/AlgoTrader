@@ -34,7 +34,7 @@ _COMMAND_MAP: dict[str, str] = {
 def _run_module(module_name: str, run_id: str | None) -> None:
     """Import the module and call its ``run()`` function."""
     module = __import__(module_name, fromlist=["run"])
-    run_fn = getattr(module, "run")
+    run_fn = module.run
     if run_id is not None:
         run_fn(run_id)
     else:
@@ -61,7 +61,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "orchestrator":
         from algotrader.orchestrator.main import Orchestrator
-        Orchestrator().start()
+        Orchestrator()._startup()
         return 0
 
     if args.command == "dashboard":

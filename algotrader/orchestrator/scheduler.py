@@ -18,7 +18,7 @@ Job dependency notes:
 
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger

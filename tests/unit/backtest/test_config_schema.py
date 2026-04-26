@@ -10,8 +10,11 @@ swallowed by a getattr(..., default) call deep in the pipeline.
 """
 
 from __future__ import annotations
+
 from typing import Any
+
 from pydantic import BaseModel, Field, field_validator, model_validator
+
 from algotrader.shared.exceptions import BacktestError
 
 
@@ -41,7 +44,7 @@ class BacktestConfig(BaseModel):
         return v
 
     @model_validator(mode="after")
-    def oos_shorter_than_is(self) -> "BacktestConfig":
+    def oos_shorter_than_is(self) -> BacktestConfig:
         if self.oos_window_months >= self.is_window_months:
             raise ValueError(
                 f"oos_window_months ({self.oos_window_months}) must be "

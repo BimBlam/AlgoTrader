@@ -9,7 +9,6 @@ import pytest
 
 from algotrader.signals import main as s3_main
 
-
 RUN_ID = "test-run-main-001"
 TODAY = datetime.date(2025, 1, 15)
 

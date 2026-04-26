@@ -10,6 +10,7 @@ import uuid
 from unittest.mock import MagicMock
 
 import pytest
+
 from algotrader.backtest.writer import write_backtest_record, write_event
 from algotrader.shared.constants import EventType, Severity
 

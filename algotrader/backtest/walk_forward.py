@@ -10,20 +10,19 @@ downstream metrics.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import List
 
 import pandas as pd
 from scipy import stats
 
-from algotrader.shared.logger import get_logger
+from algotrader.backtest.costs import TransactionCostModel
 from algotrader.backtest.metrics import (
+    equity_curve_from_returns,
+    max_drawdown,
     sharpe_ratio,
     sortino_ratio,
-    max_drawdown,
-    equity_curve_from_returns,
 )
 from algotrader.backtest.strategy_sim import simulate_strategy
-from algotrader.backtest.costs import TransactionCostModel
+from algotrader.shared.logger import get_logger
 
 log = get_logger(__name__)
 
@@ -39,7 +38,7 @@ class WalkForwardResult:
     oos_kurt: float
     oos_n_obs: int
     # Per-window Sharpe variants used later by CSCV
-    oos_sharpe_variants: List[float] = field(default_factory=list)
+    oos_sharpe_variants: list[float] = field(default_factory=list)
 
 
 def run_walk_forward(

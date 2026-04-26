@@ -20,7 +20,6 @@ caller can write a RISK_HALT event and exit cleanly.
 from __future__ import annotations
 
 import time
-from typing import Optional
 
 from ib_insync import IB, Contract, LimitOrder, Order, Stock, Trade
 
@@ -54,7 +53,7 @@ class IBKRClient:
 
     def connect(self) -> None:
         """Connect to TWS; retry up to _MAX_RETRIES times with exponential back-off."""
-        last_exc: Optional[Exception] = None
+        last_exc: Exception | None = None
         backoff = _INITIAL_BACKOFF_SECONDS
 
         for attempt in range(1, _MAX_RETRIES + 1):

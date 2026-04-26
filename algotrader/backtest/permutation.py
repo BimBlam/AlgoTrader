@@ -23,15 +23,14 @@ from __future__ import annotations
 
 import copy
 from dataclasses import dataclass, field
-from typing import Dict
 
 import numpy as np
 import pandas as pd
 
-from algotrader.shared.logger import get_logger
-from algotrader.backtest.strategy_sim import simulate_strategy
-from algotrader.backtest.metrics import sharpe_ratio
 from algotrader.backtest.costs import TransactionCostModel
+from algotrader.backtest.metrics import sharpe_ratio
+from algotrader.backtest.strategy_sim import simulate_strategy
+from algotrader.shared.logger import get_logger
 
 log = get_logger(__name__)
 
@@ -40,7 +39,7 @@ _N_PERMUTATIONS = 200
 
 @dataclass
 class PermutationResult:
-    p_values: Dict[str, float] = field(default_factory=dict)
+    p_values: dict[str, float] = field(default_factory=dict)
 
 
 def run_permutation_battery(

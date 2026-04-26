@@ -13,21 +13,20 @@ Both loops run in a background daemon thread so they never block the scheduler.
 from __future__ import annotations
 
 import threading
-from datetime import datetime, timezone
-from typing import Callable
+from collections.abc import Callable
+from datetime import UTC, datetime
 
+from algotrader.orchestrator.job_manager import get_stale_running_jobs, mark_job_failed
 from algotrader.shared.constants import Severity
 from algotrader.shared.db import get_session
 from algotrader.shared.logger import get_logger
 from algotrader.shared.models import SystemEvent
 
-from algotrader.orchestrator.job_manager import get_stale_running_jobs, mark_job_failed
-
 log = get_logger(__name__)
 
 
 def _utcnow() -> datetime:
-    return datetime.now(tz=timezone.utc)
+    return datetime.now(tz=UTC)
 
 
 class Watchdog:

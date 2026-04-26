@@ -11,7 +11,7 @@ import datetime
 
 def utc_now() -> datetime.datetime:
     """Return timezone-aware UTC datetime. Central point so tests can freeze time."""
-    return datetime.datetime.now(datetime.timezone.utc)
+    return datetime.datetime.now(datetime.UTC)
 
 
 def utc_today() -> datetime.date:

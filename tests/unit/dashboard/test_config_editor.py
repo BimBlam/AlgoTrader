@@ -7,7 +7,6 @@ from pathlib import Path
 import pytest
 import yaml
 
-from algotrader.shared.exceptions import ConfigError
 from algotrader.dashboard.config_editor import (
     _load_yaml,
     _validate,
@@ -18,7 +17,7 @@ from algotrader.dashboard.config_editor import (
     update_system_config,
 )
 from algotrader.shared.config_loader import RiskConfig
-
+from algotrader.shared.exceptions import ConfigError
 
 # ── _load_yaml ────────────────────────────────────────────────────────────────
 

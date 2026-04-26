@@ -26,7 +26,6 @@ from __future__ import annotations
 import datetime
 import math
 from pathlib import Path
-from typing import Optional
 
 import pandas as pd
 import yfinance as yf
@@ -114,7 +113,7 @@ def _build_return_row(
     df: pd.DataFrame,
     today: datetime.date,
     metadata: dict[str, dict],
-) -> Optional[dict]:
+) -> dict | None:
     """
     Compute one returns row for *ticker* on *today*.
 

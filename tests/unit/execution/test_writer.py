@@ -7,8 +7,6 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from algotrader.shared.constants import EventType, OrderStatus, PositionStatus, Severity, SignalStatus
-from algotrader.shared.models import Signal
 from algotrader.execution.writer import (
     close_position,
     expire_stale_signals,
@@ -20,6 +18,8 @@ from algotrader.execution.writer import (
     write_order,
     write_position,
 )
+from algotrader.shared.constants import EventType, OrderStatus, PositionStatus, Severity, SignalStatus
+from algotrader.shared.models import Signal
 
 
 class TestWriteOrder:
@@ -60,7 +60,7 @@ class TestUpdateOrderSubmitted:
 class TestUpdateOrderFilled:
     def test_records_fill(self, sample_order):
         session = MagicMock()
-        filled_at = datetime.datetime.now(tz=datetime.timezone.utc)
+        filled_at = datetime.datetime.now(tz=datetime.UTC)
         update_order_filled(session, sample_order, 149.75, filled_at)
         assert sample_order.fill_price == 149.75
         assert sample_order.filled_at == filled_at
@@ -76,7 +76,7 @@ class TestUpdateOrderRejected:
 
 class TestWritePosition:
     def test_creates_open_position(self, mock_session, sample_order):
-        filled_at = datetime.datetime.now(tz=datetime.timezone.utc)
+        filled_at = datetime.datetime.now(tz=datetime.UTC)
         pos = write_position(mock_session, sample_order, 149.75, filled_at)
         assert pos.ticker == "AAPL"
         assert pos.side == "BUY"
@@ -93,7 +93,7 @@ class TestWritePosition:
 class TestClosePosition:
     def test_long_position_positive_pnl(self, sample_position):
         session = MagicMock()
-        exit_time = datetime.datetime.now(tz=datetime.timezone.utc)
+        exit_time = datetime.datetime.now(tz=datetime.UTC)
         close_position(session, sample_position, 160.0, exit_time)
         assert sample_position.exit_price == 160.0
         assert sample_position.exit_time == exit_time
@@ -103,14 +103,14 @@ class TestClosePosition:
 
     def test_long_position_negative_pnl(self, sample_position):
         session = MagicMock()
-        exit_time = datetime.datetime.now(tz=datetime.timezone.utc)
+        exit_time = datetime.datetime.now(tz=datetime.UTC)
         close_position(session, sample_position, 140.0, exit_time)
         assert sample_position.realised_pnl == pytest.approx(-100.0)
 
     def test_short_position_pnl(self, sample_position):
         session = MagicMock()
         sample_position.side = "SELL"
-        exit_time = datetime.datetime.now(tz=datetime.timezone.utc)
+        exit_time = datetime.datetime.now(tz=datetime.UTC)
         # Short: profit when price falls
         close_position(session, sample_position, 140.0, exit_time)
         # P&L = (140 - 150) * 10 * -1.0 = 100
@@ -127,7 +127,7 @@ class TestMarkSignalExecuted:
 class TestExpireStaleSignals:
     def test_expires_old_approved_signals(self, mock_session):
         yesterday = (
-            datetime.datetime.now(tz=datetime.timezone.utc) - datetime.timedelta(days=1)
+            datetime.datetime.now(tz=datetime.UTC) - datetime.timedelta(days=1)
         )
         old_signal = Signal(
             id=2,
@@ -145,7 +145,7 @@ class TestExpireStaleSignals:
         today_signal = Signal(
             id=3,
             run_id=uuid.uuid4(),
-            created_at=datetime.datetime.now(tz=datetime.timezone.utc),
+            created_at=datetime.datetime.now(tz=datetime.UTC),
             ticker="GOOGL",
             strategy="REVERSAL",
             side="SHORT",
@@ -158,7 +158,7 @@ class TestExpireStaleSignals:
         mock_session.query.return_value.filter.return_value.all.return_value = [
             old_signal, today_signal
         ]
-        today_iso = datetime.datetime.now(tz=datetime.timezone.utc).date().isoformat()
+        today_iso = datetime.datetime.now(tz=datetime.UTC).date().isoformat()
         expired = expire_stale_signals(mock_session, today_iso)
         assert expired == 1
         assert old_signal.status == SignalStatus.EXPIRED.value

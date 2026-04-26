@@ -17,7 +17,7 @@ pipeline uses whatever ``approval_mode`` is set in config (§3.1).
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sqlalchemy.orm import Session
 
@@ -36,7 +36,7 @@ _DEFAULT_SOFT_THRESHOLD = 0.5
 
 
 def _utcnow() -> datetime:
-    return datetime.now(tz=timezone.utc)
+    return datetime.now(tz=UTC)
 
 
 def _write_approval_event(

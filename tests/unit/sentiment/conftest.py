@@ -37,7 +37,7 @@ def mock_cfg(tickers):
             log_dir="logs/",
             data_dir_ssd="data/",
         ),
-        sentiment=SimpleNamespace(
+        sentiment_params=SimpleNamespace(
             model="finbert",
             finbert_model_id="ProsusAI/finbert",
             openai_model="gpt-4o-mini",

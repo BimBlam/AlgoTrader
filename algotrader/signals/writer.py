@@ -5,7 +5,6 @@ Separated from business logic so that tests can inject mock sessions
 without touching any signal computation code.
 """
 import datetime
-from typing import Optional
 
 from sqlalchemy.orm import Session
 
@@ -32,7 +31,7 @@ def write_signals(session: Session, candidates: list[SignalCandidate]) -> None:
     for c in candidates:
         signal = Signal(
             run_id=c.run_id,
-            created_at=datetime.datetime.now(datetime.timezone.utc),
+            created_at=datetime.datetime.now(datetime.UTC),
             ticker=c.ticker.upper(),
             strategy=str(c.strategy.value) if hasattr(c.strategy, "value") else str(c.strategy),
             side=str(c.side.value) if hasattr(c.side, "value") else str(c.side),
@@ -53,7 +52,7 @@ def write_event(
     event_type: EventType,
     severity: Severity,
     message: str,
-    payload: Optional[dict] = None,
+    payload: dict | None = None,
 ) -> None:
     """
     Write a row to system_events.
@@ -61,7 +60,7 @@ def write_event(
     Always uses the S3 subsystem label.  Payload is optional JSONB context.
     """
     event = SystemEvent(
-        timestamp=datetime.datetime.now(datetime.timezone.utc),
+        timestamp=datetime.datetime.now(datetime.UTC),
         event_type=str(event_type.value) if hasattr(event_type, "value") else str(event_type),
         severity=str(severity.value) if hasattr(severity, "value") else str(severity),
         subsystem="S3",

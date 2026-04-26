@@ -11,9 +11,8 @@ import uuid
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
-
-from algotrader.shared.constants import ApprovalMode, JobStatus, SystemMode, SystemState
 from algotrader.orchestrator.main import Orchestrator
+from algotrader.shared.constants import ApprovalMode, JobStatus, SystemMode, SystemState
 
 
 def make_minimal_cfg(mode="PAPER", approval_mode="HARD"):

@@ -8,8 +8,8 @@ the event-emission logic and abort thresholds without a real database.
 from __future__ import annotations
 
 import datetime
-from unittest.mock import patch
 import types
+from unittest.mock import patch
 
 import pandas as pd
 import pytest
@@ -42,7 +42,7 @@ class TestRunSuccess:
             patch("algotrader.ingestion.main.datetime") as mock_dt,
         ):
             mock_dt.datetime.now.return_value.date.return_value = today
-            mock_dt.datetime.now.return_value = datetime.datetime(2024, 3, 15, tzinfo=datetime.timezone.utc)
+            mock_dt.datetime.now.return_value = datetime.datetime(2024, 3, 15, tzinfo=datetime.UTC)
             mock_dt.timezone = datetime.timezone
 
             main.run("test-run-id-001")
@@ -92,7 +92,7 @@ class TestRunSuccess:
           patch("algotrader.ingestion.main.datetime") as mock_dt,
       ):
           mock_dt.datetime.now.return_value.date.return_value = today
-          mock_dt.datetime.now.return_value = datetime.datetime(2024, 3, 15, tzinfo=datetime.timezone.utc)
+          mock_dt.datetime.now.return_value = datetime.datetime(2024, 3, 15, tzinfo=datetime.UTC)
           mock_dt.timezone = datetime.timezone
 
           main.run("test-run-id-002")  # Must NOT raise

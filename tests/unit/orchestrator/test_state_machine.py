@@ -3,9 +3,9 @@ from __future__ import annotations
 
 import pytest
 
+from algotrader.orchestrator.state_machine import StateMachine
 from algotrader.shared.constants import SystemState
 from algotrader.shared.exceptions import ConfigError
-from algotrader.orchestrator.state_machine import StateMachine
 
 
 class TestStateMachineTransitions:

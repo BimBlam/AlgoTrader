@@ -1,7 +1,10 @@
 """TransactionCostModel unit tests."""
-import pytest
 from types import SimpleNamespace
+
+import pytest
+
 from algotrader.backtest.costs import TransactionCostModel
+
 
 def _cfg(slippage=0.0015, include_costs=True):
     return SimpleNamespace(backtest=SimpleNamespace(

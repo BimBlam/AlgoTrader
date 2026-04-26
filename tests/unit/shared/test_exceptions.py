@@ -2,8 +2,14 @@
 import pytest
 
 from algotrader.shared.exceptions import (
-    AlgoTraderError, BacktestError, ConfigError, DataError,
-    ExecutionError, RiskBreach, SentimentError, SignalError,
+    AlgoTraderError,
+    BacktestError,
+    ConfigError,
+    DataError,
+    ExecutionError,
+    RiskBreach,
+    SentimentError,
+    SignalError,
 )
 
 

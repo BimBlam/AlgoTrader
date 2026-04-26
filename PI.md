@@ -1,7 +1,24 @@
 # AlgoTrader — Agent Development Guide
 
-> This guide is for **Pi** (pi.dev) and compatible coding agents.  
-> It replaces the legacy `CLAUDE.md` — delete any old `CLAUDE.md` you find.
+> For **Pi** (pi.dev) and compatible coding agents.
+
+## Tracking
+
+This project uses **bd (beads)** for issue tracking. All work is tracked
+as beads issues with dependencies, not in markdown TODO lists.
+
+```bash
+bd ready              # Find available work
+bd show <id>          # View issue details
+bd update <id> --claim  # Claim work
+bd close <id>         # Complete work
+bd list               # All open issues
+```
+
+**Rules:**
+- Use `bd` for ALL task tracking — never TodoWrite, TaskCreate, or markdown TODOs
+- Use `bd remember` for persistent project knowledge
+- dátummal push after every session: `git pull --rebase && bd dolt push && git push`
 
 ## Before You Start
 

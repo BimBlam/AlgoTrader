@@ -21,16 +21,15 @@ from __future__ import annotations
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
-from typing import List, Optional
 
 import numpy as np
 import pandas as pd
 from arch import arch_model
 
-from algotrader.shared.logger import get_logger
-from algotrader.backtest.strategy_sim import simulate_strategy
-from algotrader.backtest.metrics import sharpe_ratio
 from algotrader.backtest.costs import TransactionCostModel
+from algotrader.backtest.metrics import sharpe_ratio
+from algotrader.backtest.strategy_sim import simulate_strategy
+from algotrader.shared.logger import get_logger
 
 log = get_logger(__name__)
 
@@ -39,7 +38,7 @@ _MAX_THREADS = 8
 
 @dataclass
 class MonteCarloResult:
-    path_sharpes: List[float]
+    path_sharpes: list[float]
     garch_params: dict
 
 
@@ -134,7 +133,7 @@ def _evaluate_path(
     cfg,
     cost_model: TransactionCostModel,
     wrap_seed: int,
-) -> Optional[float]:
+) -> float | None:
     """
     Build a synthetic DataFrame from one GARCH path, split into IS/OOS,
     run strategy simulation, and return the OOS Sharpe.
@@ -163,7 +162,7 @@ def _fit_garch(mean_ret: pd.Series):
     """
     ret_pct = mean_ret * 100.0
     try:
-        garch = arch_model(ret_pct, vol="Garch", p=1, q=1,
+        garch = arch_model(ret_pct, vol="GARCH", p=1, q=1,
                            dist="normal", rescale=False)
         res = garch.fit(disp="off", show_warning=False)
         mu    = float(res.params.get("mu",       0.0))

@@ -27,7 +27,7 @@ def pending_signal():
     return Signal(
         id=1,
         run_id=uuid.uuid4(),
-        created_at=datetime.datetime.now(tz=datetime.timezone.utc),
+        created_at=datetime.datetime.now(tz=datetime.UTC),
         ticker="AAPL",
         strategy="STAT_ARB",
         side="LONG",
@@ -44,7 +44,7 @@ def approved_signal():
     return Signal(
         id=2,
         run_id=uuid.uuid4(),
-        created_at=datetime.datetime.now(tz=datetime.timezone.utc),
+        created_at=datetime.datetime.now(tz=datetime.UTC),
         ticker="MSFT",
         strategy="REVERSAL",
         side="SHORT",

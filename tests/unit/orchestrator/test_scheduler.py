@@ -3,8 +3,7 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock, patch
 
-
-from algotrader.orchestrator.scheduler import JobScheduler, _SCHEDULE
+from algotrader.orchestrator.scheduler import _SCHEDULE, JobScheduler
 
 
 class TestSchedulerRegistration:

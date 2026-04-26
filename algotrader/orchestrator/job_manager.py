@@ -15,7 +15,7 @@ from __future__ import annotations
 import hashlib
 import json
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from sqlalchemy.orm import Session
@@ -40,7 +40,7 @@ _EXPECTED_DURATION_MINUTES: dict[str, int] = {
 
 
 def _utcnow() -> datetime:
-    return datetime.now(tz=timezone.utc)
+    return datetime.now(tz=UTC)
 
 
 def _config_hash(cfg_obj: Any) -> str:

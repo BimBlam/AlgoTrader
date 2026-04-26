@@ -7,10 +7,9 @@ from unittest.mock import patch
 
 import pytest
 
+from algotrader.shared.constants import SignalSide, SignalStrategy
 from algotrader.signals.ou_model import OUResult
 from algotrader.signals.stat_arb import compute_stat_arb_signals
-from algotrader.shared.constants import SignalSide, SignalStrategy
-
 
 TODAY = datetime.date(2025, 1, 15)
 RUN_ID = "test-run-001"

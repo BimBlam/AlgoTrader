@@ -10,7 +10,7 @@ SUBMITTED status and can be monitored/cancelled by a later reconcile pass.
 """
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from ib_insync import Fill, Trade
 
@@ -60,7 +60,7 @@ class FillTracker:
         _, order_row = self._pending.pop(ibkr_id)
 
         fill_price = float(fill.execution.avgPrice)
-        filled_at = datetime.now(tz=timezone.utc)
+        filled_at = datetime.now(tz=UTC)
 
         update_order_filled(self._session, order_row, fill_price, filled_at)
         position = write_position(self._session, order_row, fill_price, filled_at)

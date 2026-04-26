@@ -5,8 +5,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from algotrader.shared.constants import EventType
 from algotrader.execution.fill_tracker import FILL_TIMEOUT_SECONDS, FillTracker
+from algotrader.shared.constants import EventType
 
 
 def _make_trade(order_id: int = 1) -> MagicMock:

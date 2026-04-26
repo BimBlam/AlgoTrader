@@ -1,12 +1,8 @@
 """tests/unit/s7/test_writer.py"""
 from __future__ import annotations
 
-
 import pytest
 
-from algotrader.shared.constants import EventType, Severity, SignalStatus
-from algotrader.shared.exceptions import DataError
-from algotrader.shared.models import SystemEvent
 from algotrader.dashboard.writer import (
     approve_signal,
     deny_signal,
@@ -16,7 +12,9 @@ from algotrader.dashboard.writer import (
     write_mode_changed_event,
     write_resume_event,
 )
-
+from algotrader.shared.constants import EventType, Severity, SignalStatus
+from algotrader.shared.exceptions import DataError
+from algotrader.shared.models import SystemEvent
 
 # ── write_event ───────────────────────────────────────────────────────────────
 

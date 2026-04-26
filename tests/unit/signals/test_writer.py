@@ -4,11 +4,9 @@ Unit tests for writer.py — DB persistence helpers.
 import datetime
 from unittest.mock import MagicMock
 
-
+from algotrader.shared.constants import EventType, Severity, SignalSide, SignalStrategy
 from algotrader.signals.stat_arb import SignalCandidate
-from algotrader.signals.writer import write_signals, write_event
-from algotrader.shared.constants import SignalStrategy, SignalSide, EventType, Severity
-
+from algotrader.signals.writer import write_event, write_signals
 
 TODAY = datetime.date(2025, 1, 15)
 RUN_ID = "test-run-004"
