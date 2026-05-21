@@ -116,7 +116,7 @@ def _circular_shift_test(
     for _ in range(n_perms):
         shift = int(rng.integers(1, n))
         shifted_dates = dates[shift:] + dates[:shift]
-        date_map = dict(zip(dates, shifted_dates))
+        date_map = dict(zip(dates, shifted_dates, strict=True))
         shifted_df = _remap_dates(returns_df, date_map)
 
         # Split on the shifted df\'s own sorted date range

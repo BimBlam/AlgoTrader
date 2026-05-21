@@ -4,11 +4,9 @@ from __future__ import annotations
 import datetime
 from unittest.mock import MagicMock, patch
 
-import pytest
 from dash import html
 
 from algotrader.dashboard.pages.home import _build_events_table, get_layout, update_home
-from algotrader.shared.models import SystemEvent
 
 
 class TestGetLayout:

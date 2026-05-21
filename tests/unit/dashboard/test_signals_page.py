@@ -3,11 +3,9 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock, patch
 
-import pytest
 from dash import html
 
 from algotrader.dashboard.pages.signals import _signal_row, get_layout, refresh_signals_table
-from algotrader.shared.models import Signal
 
 
 class TestGetLayout:
